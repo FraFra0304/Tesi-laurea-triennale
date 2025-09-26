@@ -14,11 +14,6 @@ Il sistema permette di:
 
 I dati sono presentati attraverso **card**, **grafici** e **tabelle**, per rendere la consultazione chiara e immediata.
 
-## Contenuto della repository
-
-- `thesis-template/` – Template di base per la tesi  
-- `thesis.pdf` – Versione completa della tesi di laurea  
-
 ## Link alla tesi
 
 [Scarica la tesi in PDF](./thesis.pdf)
