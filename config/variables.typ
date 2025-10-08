@@ -1,7 +1,7 @@
 #let myLang = "it" // it/en only
 #let myName = "Francesco Fragonas"
 #let myMatricola = "2076436"
-#let myTitle = "VoIPDashboard - Strumento Web per la Visualizzazione e l’Analisi di Dati Telefonici"
+#let myTitle = "VoIPDashboard - Strumento web per la visualizzazione e l’analisi di dati telefonici"
 #let myProf = "Prof. Marco Zanella"
 #let myCompany = "Cinquenet SRL"
 #let myLocation = "Padova"
