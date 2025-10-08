@@ -1,5 +1,4 @@
-# Strumento Web per la Visualizzazione e l’Analisi di Dati Telefonici
-
+# VoIPDashboard - Strumento Web per la  Visualizzazione  e  l’Analisi  di  Dati Telefonici
 Questa repository contiene il progetto della tesi di laurea triennale in Informatica, volto alla realizzazione di una **dashboard web** per la consultazione e l’analisi di dati telefonici provenienti da un centralino VoIP.  
 
 ## Descrizione del progetto
