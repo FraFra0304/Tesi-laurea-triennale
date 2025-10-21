@@ -3,122 +3,145 @@
 
 #pagebreak(to:"odd")
 
-= Analisi dei requisiti<cap:analisi-requisiti>
 
-#text(style: "italic", [
-    In questo capitolo effettuo l'analisi degli utenti, sviluppo le user stories e compongo la lista dei requisiti dividendoli per tipologia e necessità.
-])
-#v(1em)
 
-== Analisi degli utenti
+= Analisi dei requisiti
 
-== User stories<cap:user-stories>
-Nel contesto dello sviluppo agile...
+_In questo capitolo vengono analizzati e approfonditi i requisiti individuati per la realizzazione del progetto di dashboard per l'analisi delle chiamate telefoniche._
 
-== Lista delle user stories<cap:lista-user-stories>
-#[
-#set heading(
-  numbering: (..numbers) => {
-    let level = numbers.pos().len()
-    if (level == 4) {
-      return numbering("US1", numbers.pos().at(level - 1))
-    }
-  }
-)
-#set heading(supplement: none)
-#let d = [*Descrizione: *]
-#let ac = [#v(0.5em) *Acceptance criteria: *]
+== Introduzione ai requisiti
 
-#heading(numbering: none, level: 3)[Epic 1. Gestione utenti]
-==== Login<us:login>
-#d Come utente non autenticato, voglio poter fare il login per accedere alle funzionalità dell’applicativo.\
-#ac
-1. L'utente deve poter inserire le proprie credenziali (email e password) in un modulo di login.
-2. Se l’utente inserisce credenziali corrette, il sistema reindirizza l'utente alla dashboard.
-3. Se l’utente inserisce credenziali errate, il sistema mostra un messaggio di errore.
+I requisiti del sistema sono stati identificati attraverso un processo di analisi condotto in collaborazione con il tutor aziendale e, successivamente, validati con il cliente finale durante la presentazione del primo prototipo funzionante. Questi sono stati suddivisi in due macro categorie principali:
 
-==== Registrazione<us:registrazione>
-#d Come utente non autenticato, voglio potermi registrare per accedere alla piattaforma.
-#ac
-1. L'utente deve poter compilare un modulo di registrazione con i campi richiesti (nome, cognome, email, password).
-2. Il sistema effettua la verifica che l’utente non sia già registrato in piattaforma.
-3. Dopo la verifica, il sistema invia una email all’utente che si sta registrando con un codice per poter attivare il proprio account.
-4. Quando l'utente inserisce il codice ricevuto nella webapp, il suo account viene attivato e ha la possibilità di accedere.
-]
+/ Requisiti funzionali: Rappresentano le funzionalità che il sistema deve offrire per rispondere alle esigenze degli utenti finali, definendo le operazioni che la dashboard deve essere in grado di svolgere. Si suddividono in:
+  - *Obbligatori*: indispensabili per il corretto funzionamento del sistema e per soddisfare le necessità primarie degli utenti
+  - *Desiderabili*: non strettamente necessari, tuttavia se implementati garantiscono una migliore esperienza utente e una maggiore usabilità del software
+  - *Opzionali*: la loro aggiunta non è essenziale per il funzionamento base del sistema, vengono implementati se rimane tempo a disposizione al termine dello sviluppo delle funzionalità prioritarie
+
+/ Requisiti non funzionali: Di questa categoria fanno parte i requisiti qualitativi e quelli di vincolo. I primi garantiscono una qualità maggiore del software dal punto di vista delle prestazioni, usabilità, affidabilità e sicurezza. I requisiti di vincolo invece stabiliscono limitazioni o condizioni che il sistema deve rispettare, come tecnologie da utilizzare, standard aziendali o normative da seguire.
 
 == Tracciamento dei requisiti
-Ad ogni requisito è associato un codice costruito in base alle sue caratteristiche:
-#v(1em)
-#align(center)[*(F/Q/C)(M/D/O)R*]
-#v(1em)
-#set list(marker: none)
-- F (_Functional_): definisce una funzione di un sistema o dei suoi componenti;
-- Q (_Qualitative_): rappresentano come il sistema deve essere per soddisfare i requisiti dello stakeholder;
-- C (_Constraint_): rappresentano dei vincoli o dei limiti che il sistema deve rispettare;
-#v(0.5em)
-- M (_Mandatory_): irrinunciabili per qualcuno degli stakeholder;
-- D (_Desirable_): non strettamente necessari ma a valore aggiunto riconoscibile;
-- O (_Optional_): relativamente utili oppure contrattabili anche in fasi avanzate del progetto;
-#v(0.3em)
-- R (_Requirement_): requisito
-#v(1em)
-In @tab:requisiti-funzionali, @tab:requisiti-qualitativi e @tab:requisiti-vincolo sono riassunti i requisiti e il loro tracciamento con gli use case delineati in fase di analisi.
+
+Per garantire una classificazione chiara e sistematica, i requisiti raccolti sono stati categorizzati in base alla loro tipologia e priorità, utilizzando la seguente notazione:
+
+#figure(
+  table(
+    columns: (auto, auto),
+    align: left,
+    [*Sigla*], [*Significato*],
+    [F], [Funzionale],
+    [N], [Non funzionale],
+    [Q], [Qualitativo],
+    [V], [Vincolo],
+    [O], [Obbligatorio],
+    [D], [Desiderabile],
+    [P], [Opzionale],
+  ),
+  caption: [Legenda per la classificazione dei requisiti]
+)
+
+Ogni requisito è stato identificato secondo il seguente schema di codifica:
+
+#align(center)[
+  #text(size: 14pt, weight: "bold")[R-XY-N]
+]
+
+dove:
+- *R* indica che si tratta di un requisito
+- *X* indica se il requisito è funzionale (F) o non funzionale (N)
+- *Y* indica il livello di importanza se il requisito è funzionale, oppure la tipologia se è non funzionale:
+  - se X = F, allora Y può assumere i valori O (obbligatorio), D (desiderabile) o P (opzionale)
+  - se X = N, allora Y può assumere i valori Q (qualitativo) o V (vincolo)
+- *N* identifica in maniera univoca il requisito all'interno della sua macro categoria
+
+#pagebreak()
+
+== Requisiti funzionali
+
+Di seguito vengono elencati i requisiti funzionali identificati per il sistema di dashboard.
+
 #[
 #show figure: set block(breakable: true)
 #set table(
   align: (center+horizon, left+horizon, center+horizon),
-  columns: (auto, 5fr, 1.5fr),
+  columns: (auto, auto),
 )
 #v(1em)
+
 #figure(
     table(
-        table.header([*Codice*], [*Descrizione*], [*Fonti*]),
-        ..getFR().flatten()
+      align: (center+horizon, left+horizon),
+      table.header([*Codice*], [*Descrizione*]),
+      ..getFunzionali().flatten()
     ),
     caption: "Tracciamento dei requisti funzionali.",
 )
 <tab:requisiti-funzionali>
+]
 
-#v(2em)
-#figure(
-    table(
-      align: (center+horizon, left+horizon, center+horizon),
-      table.header([*Codice*], [*Descrizione*], [*Fonti*]),
-      ..getQR().flatten()
-    ),
-    caption: "Tracciamento dei requisti di qualità.",
+#pagebreak()
+
+== Requisiti non funzionali
+
+I requisiti non funzionali definiscono gli aspetti qualitativi e i vincoli tecnici del sistema.
+
+#[
+#show figure: set block(breakable: true)
+#set table(
+  align: (center+horizon, left+horizon, center+horizon),
+  columns: (auto, auto),
 )
-<tab:requisiti-qualitativi>
-
-#v(2em)
-#figure(
-    table(
-      align: (center+horizon, left+horizon, center+horizon),
-      table.header([*Codice*], [*Descrizione*], [*Fonti*]),
-      ..getCR().flatten()
-    ),
-    caption: "Tracciamento dei requisti di vincolo.",
-)
-<tab:requisiti-vincolo>
-
-#v(2em)
-Di seguito, nella @tab:riepilogo-requisiti ho inserito il riepilogo dei requisiti, suddivisi per tipologia e necessità.
 #v(1em)
-#show figure: set block(breakable: false)
+#figure(
+    table(
+      align: (center+horizon, left+horizon),
+      table.header([*Codice*], [*Descrizione*]),
+      ..getNonFunzionali().flatten()
+    ),
+    caption: "Tracciamento dei requisti non funzionali.",
+)
+<tab:requisiti-non-funzionali>
+]
+
+
+== Riepilogo dei requisiti
+
+La tabella seguente riporta il riepilogo quantitativo dei requisiti identificati durante la fase di analisi.
+
+
+#figure(
+  table(
+    columns: (1fr, auto),
+    align: (left, center),
+    [*Tipologia*], [*Quantità*],
+    [Requisiti funzionali], [39],
+    [#h(1em) - Obbligatori], [19],
+    [#h(1em) - Desiderabili], [14],
+    [#h(1em) - Opzionali], [6],
+    [Requisiti non funzionali], [16],
+    [#h(1em) - Qualitativi], [9],
+    [#h(1em) - Di vincolo], [7],
+    table.hline(),
+    [*Totale*], [*55*],
+  ),
+  caption: [Riepilogo dei requisiti di progetto]
+)
+
+/*
 #figure(
   table(
     columns: (auto, 1fr, 1fr, auto, auto),
     table.header([*Tipo*], [*Mandatory*], [*Desirable*],[*Optional*], [*Somma*]),
-    [Functional], [#getFR(getLen: true).at(0)], [#getFR(getLen: true).at(1)], [#getFR(getLen: true).at(2)], [#getFR(getLen: true).sum()],
+    [Functional], [#getFunzionali(getLen: true).at(0)], [#getFunzionali(getLen: true).at(1)], [#getFunzionali(getLen: true).at(2)], [#getFunzionali(getLen: true).sum()],
     [Qualitative], [#getQR(getLen: true).at(0)], [#getQR(getLen: true).at(1)], [#getQR(getLen: true).at(2)], [#getQR(getLen: true).sum()],
     [Constraint], [#getCR(getLen: true).at(0)], [#getCR(getLen: true).at(1)], [#getCR(getLen: true).at(2)], [#getCR(getLen: true).sum()],
     [*Totale*],
-      [*#{getFR(getLen: true).at(0)+getQR(getLen: true).at(0)+getCR(getLen: true).at(0)}*],
-      [*#{getFR(getLen: true).at(1)+getQR(getLen: true).at(1)+getCR(getLen: true).at(1)}*],
-      [*#{getFR(getLen: true).at(2)+getQR(getLen: true).at(2)+getCR(getLen: true).at(2)}*],
-      [*#{getFR(getLen: true).sum()+getQR(getLen: true).sum()+getCR(getLen: true).sum()}*],
+      [*#{getFunzionali(getLen: true).at(0)+getQR(getLen: true).at(0)+getCR(getLen: true).at(0)}*],
+      [*#{getFunzionali(getLen: true).at(1)+getQR(getLen: true).at(1)+getCR(getLen: true).at(1)}*],
+      [*#{getFunzionali(getLen: true).at(2)+getQR(getLen: true).at(2)+getCR(getLen: true).at(2)}*],
+      [*#{getFunzionali(getLen: true).sum()+getQR(getLen: true).sum()+getCR(getLen: true).sum()}*],
     align: (center+horizon)
   ),
   caption: "Riepilogo dei requisiti."
 )<tab:riepilogo-requisiti>
-]
+*/

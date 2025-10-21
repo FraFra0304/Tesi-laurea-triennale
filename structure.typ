@@ -18,8 +18,9 @@
 #set page(numbering: "1.")
 #include "chapters/1_introduction.typ"
 #include "chapters/2_stage-description.typ"
-/*#include "chapters/3_requirements.typ"
-#include "chapters/4_conclusion.typ"
+#include "chapters/3_requirements.typ"
+#include "chapters/4_technologies.typ"
+/*#include "chapters/4_conclusion.typ"
 
 #include "docs/esempi.typ"*/
 
