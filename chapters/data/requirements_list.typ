@@ -10,7 +10,7 @@
   
   obbligatori+=1
   FR.push((
-    (o + str(obbligatori)), [Implementare un sistema di autenticazione sicuro tramite username e password]
+    (o + str(obbligatori)), [Il sistema deve implementare un sistema di autenticazione sicuro tramite username e password]
   ))
   obbligatori+=1
   FR.push((
@@ -92,7 +92,52 @@
   
   qualitativi+=1
   FR.push((
-    (q + str(qualitativi)), [Implementare un sistema di autenticazione sicuro tramite username e password]
+    (q + str(qualitativi)), [Il sistema deve garantire  tempi di risposta rapidi anche con volumi elevati di dati]
+  ))
+
+  qualitativi+=1
+  FR.push((
+    (q + str(qualitativi)), [L'interfaccia deve essere intuitiva senza necessità di formazione specifica]
+  ))
+
+  qualitativi+=1
+  FR.push((
+    (q + str(qualitativi)), [I messaggi di errore devono essere chiari e comprensibili]
+  ))
+
+  qualitativi+=1
+  FR.push((
+    (q + str(qualitativi)), [Il sistema deve avere una gestione corretta degli errori senza perdita di dati]
+  ))
+
+  qualitativi+=1
+  FR.push((
+    (q + str(qualitativi)), [L'accesso deve essere protetto contro accessi non autorizzati]
+  ))
+
+  qualitativi+=1
+  FR.push((
+    (q + str(qualitativi)), [Il sistema deve essere accessibile da dispositivi mobili e desktop]
+  ))
+
+  vincolo+=1
+  FR.push((
+    (v + str(vincolo)), [Separazione tra frontend e backend tramite API RESTful]
+  ))
+
+  vincolo+=1
+  FR.push((
+    (v + str(vincolo)), [Accessibilità tramite browser web moderni senza plugin aggiuntivi o installazioni locali]
+  ))
+
+  vincolo+=1
+  FR.push((
+    (v + str(vincolo)), [Il sistema deve poter essere distribuito in ambienti containerizzati come Docker]
+  ))
+
+  vincolo+=1
+  FR.push((
+    (v + str(vincolo)), [Possibilità di integrazione con sistemi di autenticazione esterni in futuro (LDAP, OAuth)]
   ))
 
   if getLen == true {
