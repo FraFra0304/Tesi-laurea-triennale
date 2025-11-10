@@ -590,185 +590,130 @@ Errore:
 
 == Implementazione frontend
 
-Frontend implementa pattern SPA (Single Page Application) dove navigazione aggiorna dinamicamente contenuto senza reload pagina.
+Il frontend è strutturato seguendo un'architettura modulare multi-pagina, dove ogni funzionalità è rappresentata da un file HTML dedicato. Questa scelta privilegia la semplicità e la manutenibilità rispetto alle architetture SPA più complesse.
 
-=== Organizzazione modulare
+=== Organizzazione file e struttura
 
-Codice organizzato per modularità e riutilizzo:
+L'applicazione è composta da file HTML separati per ogni sezione funzionale. 
+Per garantire consistenza visiva e ridurre duplicazione codice, componenti comuni come header e navbar sono estratti in file dedicati e inclusi dinamicamente tramite JavaScript in ciascuna pagina:
 
-**HTML**: struttura semantica con elementi HTML5 appropriati (header, nav, main, section, article, footer)
-
-**CSS**: metodologia BEM per nominazione classi garantendo specificità chiara. Organizzato in file tematici:
-- `base.css`: reset e stili globali
-- `layout.css`: griglia e posizionamento
-- `components.css`: componenti riutilizzabili
-- `pages.css`: stili specifici pagina
-- `responsive.css`: media queries e adattamenti mobile
-
-**JavaScript**: moduli ES6 con componenti riutilizzabili. Ogni componente esporta funzione o classe che incapsula markup, stile e logica. Esempio:
 ```javascript
-// components/DashboardCard.js
-export function createDashboardCard({ title, value, icon, trend }) {
-  const card = document.createElement('div');
-  card.className = 'dashboard-card';
-  card.innerHTML = `
-    <div class="card__icon">${icon}</div>
-    <div class="card__content">
-      <h3 class="card__title">${title}</h3>
-      <p class="card__value">${value}</p>
-      <span class="card__trend ${trend > 0 ? 'positive' : 'negative'}">
-        ${trend > 0 ? '↑' : '↓'} ${Math.abs(trend)}%
-      </span>
-    </div>
-  `;
-  return card;
+// Caricamento componenti comuni
+fetch('components/header.html')
+    .then(response => response.text())
+    .then(html => document.getElementById('header-container').innerHTML = html);
+
+fetch('components/navbar.html')
+    .then(response => response.text())
+    .then(html => document.getElementById('navbar-container').innerHTML = html);
+```
+
+Questo approccio consente modifiche centralizzate ai componenti condivisi propagate automaticamente su tutte le pagine.
+
+Ogni pagina HTML è associata a un file JavaScript specifico contenente logica applicativa relativa. Complementarmente, file JavaScript globali (`global.js`, `config.js`) centralizzano:
+- Variabili di configurazione (URL API, costanti applicative)
+- Funzioni utility riutilizzabili (formattazione date, conversione durate, gestione token autenticazione)
+- Costanti condivise (mappature stato chiamate, configurazioni)
+
+=== Pattern Factory per tabelle e grafici
+
+Per gestione componenti complessi come tabelle DataTables e grafici Chart.js, è implementato pattern Factory garantendo creazione consistente e configurabile istanze senza duplicazione codice.
+
+*CallsTableFactory* gestisce creazione tabelle chiamate con configurazioni specifiche per contesto:
+
+```javascript
+// Tabella chiamate in entrata
+CallsTableFactory.createIncomingTable(
+    startDate,
+    endDate,
+    extensions,
+    ringGroups,
+    dids
+);
+
+// Tabella chiamate in uscita con configurazione diversa
+CallsTableFactory.createOutgoingTable(
+    startDate,
+    endDate,
+    extensions,
+    ringGroups,
+    dids
+);
+
+// Tabella dashboard con paginazione ridotta
+CallsTableFactory.createDashboardTable(
+    startDate,
+    endDate,
+    extensions,
+    ringGroups,
+    dids
+);
+```
+
+Factory instanzia classe `CallsTableManager` configurata con:
+- Selettore CSS tabella target
+- Endpoint API per recupero dati
+- Tipo tabella (entrata/uscita) determinando colonne e rendering
+- Configurazioni DataTables (paginazione, ordinamento, export)
+- Gestori eventi (click riga, apertura modal dettaglio)
+
+`CallsTableManager` incapsula la logica specifica per gestione tabelle chiamate, inclusi:
+- *Recupero dati*: chiamate asincrone API con gestione autenticazione e errori
+- *Column definitions*: configurazione colonne con renderer custom per formattazione dati (date, durate, stati)
+- *Interattività*: gestione click righe aprendo modal con dettagli chiamata
+- *Export*: integrazione pulsanti export CSV/Excel/PDF
+
+`CallsTableManager` implementa anche pattern Strategy per rendering celle, permettendo logiche visualizzazione diverse basate su tipo tabella. Ad esempio, rendering stato chiamata utilizza mappatura colori:
+
+```javascript
+this.statusLabels = {
+    "ANSWER": { title: 'ANSWER', class: 'bg-label-success' },
+    "BUSY": { title: 'BUSY', class: 'bg-label-secondary' },
+    "NO ANSWER": { title: 'NO ANSWER', class: 'bg-label-danger' },
+    "FAILED": { title: 'FAILED', class: 'bg-label-warning'},
+    "UNKNOWN": { title: 'UNKNOWN', class: 'bg-label-gray'}
+};
+
+renderStatus(data, type, full) {
+    const status = this.statusLabels[data] || this.statusLabels["UNKNOWN"];
+    return `<span class="badge ${status.class}">${status.title}</span>`;
 }
 ```
 
-=== Routing client-side
+Analogamente, *ChartsFactory* gestisce creazione grafici Chart.js con configurazioni predefinite per diverse tipologie di visualizzazione (linee temporali, barre comparative, torte distribuzione).
 
-Router client-side implementato per navigazione SPA mantenendo funzionalità browser (back/forward, bookmarking):
+=== Librerie frontend
 
-```javascript
-class Router {
-  constructor(routes) {
-    this.routes = routes;
-    this.init();
-  }
-  
-  init() {
-    // Intercetta click su link interni
-    document.addEventListener('click', (e) => {
-      if (e.target.matches('[data-link]')) {
-        e.preventDefault();
-        this.navigate(e.target.href);
-      }
-    });
-    
-    // Gestisce navigazione browser
-    window.addEventListener('popstate', () => {
-      this.loadRoute(window.location.pathname);
-    });
-    
-    this.loadRoute(window.location.pathname);
-  }
-  
-  navigate(url) {
-    history.pushState(null, null, url);
-    this.loadRoute(url);
-  }
-  
-  loadRoute(path) {
-    const route = this.routes.find(r => r.path.test(path));
-    if (route) {
-      route.component();
-    }
-  }
-}
-```
+*DataTables* fornisce funzionalità avanzate per la gestione delle tabelle:
+- Ordinamento multi-colonna client-side
+- Filtro full-text e per colonna
+- Paginazione configurabile
+- Export dati multipli formati (CSV, Excel, PDF)
+- Design responsive adattabile dispositivi mobili
 
-Supporta path parametrici (`/call/:callId`) con estrazione parametri e query parameters per filtri preservati in URL.
+*Chart.js* utilizzato per visualizzazioni grafiche:
+- Grafici linee per trend temporali (volumi chiamate, durate medie)
+- Grafici barre per distribuzioni (chiamate per interno, per direzione)
+- Grafici torta per composizioni percentuali (distribuzione esiti)
 
-=== Service layer
+*SweetAlert2* per notifiche user-friendly e modal conferma azioni, sostituendo alert nativi browser con interfaccia gradevole e personalizzabile.
 
-Astrae comunicazione con backend esponendo funzioni JavaScript semantiche:
+== Sincronizzazione dati CDR
 
-```javascript
-class CallService {
-  static async getCallDetails(callId) {
-    const response = await fetch(`/api/calls/${callId}`, {
-      headers: {
-        'Authorization': `Bearer ${getToken()}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    
-    if (!response.ok) {
-      throw new ApiError(response.status, await response.json());
-    }
-    
-    return response.json();
-  }
-  
-  static async getCallsByPeriod(filters) {
-    const params = new URLSearchParams(filters);
-    const response = await fetch(`/api/calls?${params}`, {
-      headers: { 'Authorization': `Bearer ${getToken()}` }
-    });
-    
-    if (!response.ok) {
-      throw new ApiError(response.status, await response.json());
-    }
-    
-    return response.json();
-  }
-}
-```
+La sincronizzazione dei dati dal centralino rappresenta un processo critico per il corretto funzionamento del sistema, richiedendo particolare attenzione agli aspetti di robustezza, affidabilità e performance.
 
-Service layer gestisce automaticamente autenticazione (inserimento token JWT da localStorage), parsing risposte, e gestione errori lanciando eccezioni tipizzate intercettabili dai componenti.
+=== Architettura del processo di sincronizzazione
 
-=== Gestione stato
+Il sistema implementa una sincronizzazione incrementale schedulata periodicamente (configurabile, con default impostato a esecuzione giornaliera a mezzanotte). Il processo segue una sequenza di operazioni ben definita:
 
-Implementato pattern Observer semplificato con oggetto globale `AppState`:
+1. *Recupero timestamp*: interrogazione della tabella `sync_log` per determinare il timestamp dell'ultima sincronizzazione completata con successo
+2. *Query selettiva*: estrazione dal database PABX dei soli record CDR con `calldate` successivo al timestamp recuperato
+3. *Elaborazione batch*: trasferimento dei record in lotti di 1000 elementi, bilanciando consumo di memoria e numero di query al database
+4. *Inserimento con deduplicazione*: inserimento nel database locale verificando duplicati tramite campo `uniqueid`
+5. *Logging operazioni*: registrazione dettagliata dell'operazione nella tabella `sync_log` includendo metriche quali numero record importati, durata esecuzione ed eventuali errori
+6. *Aggiornamento stato*: persistenza del nuovo timestamp di sincronizzazione per le elaborazioni successive
 
-```javascript
-class AppState {
-  constructor() {
-    this.state = {};
-    this.listeners = {};
-  }
-  
-  setState(path, value) {
-    setNestedProperty(this.state, path, value);
-    this.notifyListeners(path);
-  }
-  
-  getState(path) {
-    return getNestedProperty(this.state, path);
-  }
-  
-  subscribe(path, callback) {
-    if (!this.listeners[path]) {
-      this.listeners[path] = [];
-    }
-    this.listeners[path].push(callback);
-  }
-  
-  notifyListeners(path) {
-    const listeners = this.listeners[path] || [];
-    listeners.forEach(callback => callback(this.getState(path)));
-  }
-}
-```
-
-Componenti si sottoscrivono a cambiamenti stato specifici reagendo con aggiornamenti UI. Centralizza stato prevenendo inconsistenze e facilita debugging tracciando modifiche in unico punto.
-
-=== Librerie di visualizzazione
-
-**Chart.js** per grafici: supporta tutte tipologie necessarie (linee, barre, torta, doughnut), API chiara, performance buone, personalizzazione ampia. Grafici implementati:
-- Linee per trend temporali (volumi chiamate, durate medie)
-- Barre per distribuzioni (chiamate per interno, per direzione)
-- Torta per composizioni percentuali (distribuzione per esito)
-- Combinati con assi multipli per correlazioni
-
-**DataTables** per tabelle complesse: fornisce sorting multi-colonna, filtering full-text e per-colonna, paginazione, export (CSV, Excel, PDF), responsive design. Richiede jQuery come dipendenza, inizialmente considerato limite ma benefici hanno superato perplessità.
-
-Entrambe librerie mature, ampiamente adottate, ben documentate, attivamente mantenute. Decisione di usarle ha risparmiato settimane sviluppo permettendo focus su funzionalità business-specific.
-
-== Implementazione sincronizzazione CDR
-
-Sincronizzazione dati dal PABX è processo critico implementato con attenzione a robustezza e performance.
-
-=== Processo incrementale
-
-Sincronizzazione avviene periodicamente (configurabile, default ogni giorno a mezzanotte). Meccanismo:
-
-1. Recupera timestamp ultima sincronizzazione riuscita da `sync_log`
-2. Interroga database PABX per record CDR con `calldate > lastSyncTimestamp`
-3. Trasferisce record in batch (1000 alla volta per bilanciare memoria e numero query)
-4. Inserisce record in database locale verificando duplicati tramite `uniqueid`
-5. Registra risultato in `sync_log` con metriche (record importati, durata, errori)
-6. Aggiorna timestamp ultima sincronizzazione riuscita
+L'implementazione del processo è mostrata nel seguente estratto:
 
 ```javascript
 async function syncCDR() {
@@ -806,44 +751,50 @@ async function syncCDR() {
 }
 ```
 
-=== Gestione transazioni
+=== Gestione transazionale e recupero errori
 
-Inserimenti avvengono in transazioni per atomicità: o tutti record batch vengono importati o nessuno, prevenendo stati parziali. Gestione errori robusta:
+Gli inserimenti avvengono all'interno di transazioni database per garantire atomicità delle operazioni: l'intero batch viene importato con successo oppure l'operazione viene completamente annullata, prevenendo stati inconsistenti nel database. Il sistema implementa una gestione errori articolata su più livelli:
 
-- **Errori connessione**: retry con backoff esponenziale (3 tentativi, intervalli 1s, 2s, 4s)
-- **Errori parsing**: singolo record invalido loggato ma non blocca importazione altri
-- **Violazioni vincoli**: gestite con `ON CONFLICT IGNORE` per duplicati
+*Errori di connessione*: meccanismo di retry automatico con backoff esponenziale su tre tentativi con intervalli crescenti (1 secondo, 2 secondi, 4 secondi) per gestire problematiche di rete transitorie.
 
-=== Monitoring e alerting
+*Errori di parsing*: i record singoli non validi vengono registrati nel log ma non bloccano l'importazione dei record rimanenti, garantendo massima continuità operativa.
 
-Sistema traccia sincronizzazioni con metriche:
-- Durata media sincronizzazioni (per identificare degradazioni)
-- Tasso errori (spike indicano problemi)
-- Volume dati importati (variazioni anomale segnalano problemi PABX)
+*Violazioni vincoli database*: la gestione mediante clausola `ON CONFLICT IGNORE` permette di evitare duplicazioni senza interrompere il flusso di sincronizzazione.
 
-Alert configurabili:
-- 3 sincronizzazioni consecutive fallite → email admin
-- Durata sincronizzazione > 10x media → warning performance
-- Nessun nuovo record per > 24h → possibile problema raccolta dati
+=== Sistema di monitoring
 
-== Problematiche affrontate e soluzioni
+Il sistema traccia ogni sincronizzazione registrando metriche fondamentali per il monitoraggio:
 
-=== Gestione asincronicità
+- Durata media delle sincronizzazioni per identificare eventuali degradazioni prestazionali
+- Tasso di errori per rilevare tempestivamente problematiche sistemiche
+- Volume dati importati per identificare variazioni anomale indicative di malfunzionamenti del PABX
 
-Natura asincrona JavaScript e chiamate di rete ha richiesto attenzione. Promise e async/await adottati sistematicamente per leggibilità.
+Il sistema di alerting configurabile notifica l'amministratore in presenza di condizioni anomale:
+- Tre sincronizzazioni consecutive fallite generano notifica email
+- Durata sincronizzazione superiore a dieci volte la media produce warning prestazionale
+- Assenza di nuovi record per oltre 24 ore segnala possibile interruzione nella raccolta dati
 
-**Loading states**: implementati indicatori visivi (spinner, progress bar) durante operazioni lunghe, cruciale per UX con elaborazioni di grandi volumi.
+== Problematiche affrontate e soluzioni adottate
 
-**Gestione errori di rete**: retry automatico con backoff esponenziale per richieste fallite per problemi transitori (timeout, errori 5xx). Sistema tenta fino a 3 volte con intervalli crescenti prima di presentare errore all'utente.
+Durante lo sviluppo del sistema sono emerse diverse sfide tecniche che hanno richiesto soluzioni specifiche. Di seguito vengono descritte le principali problematiche e gli approcci risolutivi implementati.
 
-**Timeout**: configurabili (default 30s) per evitare attese indefinite. Dopo timeout, richiesta cancellata e utente informato.
+=== Gestione dell'asincronicità
 
-**Race condition management**: quando utente cambia rapidamente filtri, richieste multiple possono completare in ordine diverso. Soluzione con request cancellation tramite AbortController:
+La natura asincrona di JavaScript e delle operazioni di rete ha richiesto particolare attenzione nella progettazione. Il sistema adotta sistematicamente Promise e sintassi async/await per garantire leggibilità e manutenibilità del codice.
+
+*Loading states*: sono stati implementati indicatori visivi (spinner, progress bar) durante operazioni di lunga durata, aspetto cruciale per l'esperienza utente quando si elaborano volumi significativi di dati.
+
+*Gestione errori di rete*: il sistema implementa retry automatico con backoff esponenziale per richieste fallite a causa di problematiche transitorie (timeout, errori 5xx del server). Il meccanismo effettua fino a tre tentativi con intervalli crescenti prima di presentare l'errore definitivo all'utente.
+
+*Timeout configurabili*: ogni richiesta ha un timeout configurabile (default 30 secondi) per evitare attese indefinite. Al superamento del timeout, la richiesta viene cancellata e l'utente viene informato dell'indisponibilità temporanea del servizio.
+
+*Gestione race condition*: quando l'utente modifica rapidamente i filtri di ricerca, possono generarsi richieste multiple che completano in ordine non determinabile. La soluzione implementata utilizza cancellazione delle richieste tramite `AbortController`:
+
 ```javascript
 let currentRequest = null;
 
 async function loadData(filters) {
-  // Cancella richiesta pendente
+  // Cancella eventuale richiesta pendente
   if (currentRequest) {
     currentRequest.abort();
   }
@@ -861,55 +812,55 @@ async function loadData(filters) {
 }
 ```
 
-Garantisce solo risultati ultima richiesta vengano visualizzati.
+Questo meccanismo garantisce che vengano visualizzati esclusivamente i risultati dell'ultima richiesta effettuata dall'utente.
 
-=== Visualizzazione grandi dataset
+=== Visualizzazione di dataset estesi
 
-Applicazione gestisce dataset enormi (anni di storico chiamate). Visualizzazione diretta impraticabile per performance e usabilità.
+L'applicazione gestisce dataset di dimensioni considerevoli, potenzialmente comprendenti anni di storico chiamate. La visualizzazione diretta di tali volumi risulta impraticabile sia per ragioni prestazionali che di usabilità.
 
-**Campionamento automatico per grafici**: backend determina granularità appropriata in base a range temporale:
-- Poche ore → bucket 5 minuti
-- Giorni → bucket orari
-- Settimane/mesi → bucket giornalieri
-- Anni → bucket mensili
+*Campionamento automatico per grafici*: il backend determina automaticamente la granularità appropriata in base al range temporale richiesto:
+- Intervalli di poche ore: aggregazione in bucket di 5 minuti
+- Intervalli giornalieri: aggregazione in bucket orari
+- Intervalli settimanali o mensili: aggregazione in bucket giornalieri
+- Intervalli annuali: aggregazione in bucket mensili
 
-Numero punti resta entro limiti gestibili (< 300) indipendentemente da ampiezza periodo.
+Questa strategia mantiene il numero di punti dati entro limiti gestibili (inferiore a 300) indipendentemente dall'ampiezza del periodo analizzato.
 
-**Paginazione server-side per tabelle**: frontend richiede pagina specifica (default 50 righe), backend restituisce solo quella porzione con conteggio totale. Controlli usabilità avvisano quando filtro produce risultati eccessivi (> 10.000), suggerendo raffinamento pur permettendo proseguire.
+*Paginazione server-side per tabelle*: il frontend richiede una pagina specifica di risultati (default 50 righe per pagina), mentre il backend restituisce esclusivamente quella porzione insieme al conteggio totale dei record. Il sistema avvisa l'utente quando un filtro produce un numero eccessivo di risultati (superiore a 10.000 record), suggerendo un raffinamento dei criteri pur permettendo di procedere con la visualizzazione.
 
-=== Ottimizzazione performance
+=== Ottimizzazione delle performance
 
-Performance preoccupazione costante, rispondendo a R-NQ-1 sui tempi di risposta rapidi.
+Le performance rappresentano una preoccupazione costante dello sviluppo, rispondendo direttamente al requisito non funzionale R-NQ-1 sui tempi di risposta rapidi.
 
-**Profiling query**: backend strumentato per registrare tempo esecuzione ogni query. Query lente analizzate con EXPLAIN di MySQL.
+*Profiling delle query*: il backend è strumentato per registrare il tempo di esecuzione di ogni query database. Le query che eccedono soglie prestazionali vengono analizzate mediante il comando `EXPLAIN` di MySQL per identificare colli di bottiglia.
 
-Esempio concreto: query per calcolare volume chiamate per interno in mese impiegava 8s con 500K record. EXPLAIN rivelava full table scan. Creazione indice composito su `(calldate, src, disposition)` ha ridotto tempo a 0.3s (miglioramento 25x).
+Un esempio concreto di ottimizzazione: la query per calcolare il volume di chiamate per interno in un mese richiedeva inizialmente 8 secondi con 500.000 record. L'analisi tramite `EXPLAIN` ha rivelato un full table scan. La creazione di un indice composito su `(calldate, src, disposition)` ha ridotto il tempo a 0.3 secondi, ottenendo un miglioramento di 25 volte.
 
-Altri indici creati:
-- `linkedid` per chiamate correlate (5s → 0.2s)
-- `dst` per statistiche numero chiamato
-- Compositi su combinazioni frequenti
+Altri indici strategici creati durante l'ottimizzazione:
+- Indice su `linkedid` per correlazione chiamate correlate (riduzione da 5 secondi a 0.2 secondi)
+- Indice su `dst` per statistiche su numeri chiamati
+- Indici compositi su combinazioni di campi frequentemente filtrati insieme
 
-Indici migliorano letture introducendo overhead scritture. Nel contesto (sincronizzazioni periodiche, letture dominanti), trade-off favorevole. Analisi ha mostrato indici rallentano sincronizzazioni 15% ma migliorano query 10-30x.
+Gli indici migliorano drasticamente le performance in lettura introducendo un overhead nelle operazioni di scrittura. Nel contesto applicativo, caratterizzato da sincronizzazioni periodiche e operazioni di lettura dominanti, questo trade-off risulta ampiamente favorevole. L'analisi ha evidenziato che gli indici rallentano le sincronizzazioni del 15% ma migliorano le query di un fattore compreso tra 10 e 30 volte.
 
-**Riduzione volume dati trasferiti**: query selezionano esplicitamente solo colonne necessarie. Per grafici, backend calcola aggregazioni anziché trasferire dati grezzi. Grafico volume orario restituisce 24 valori aggregati anziché migliaia di record (payload da MB a KB).
+*Riduzione volume dati trasferiti*: le query selezionano esplicitamente solo le colonne necessarie alla visualizzazione. Per i grafici, il backend calcola le aggregazioni anziché trasferire dati grezzi al frontend. Ad esempio, un grafico dei volumi orari restituisce 24 valori aggregati anziché migliaia di record individuali, riducendo il payload da megabyte a kilobyte.
 
-**Performance rendering frontend**: limite massimo 500 punti per grafico, backend reaggrega se necessario. Paginazione server-side per tabelle garantisce max 100 righe nel DOM.
+*Performance rendering frontend*: il sistema impone un limite massimo di 500 punti per grafico, con il backend che reaggrega automaticamente i dati se necessario. La paginazione server-side per le tabelle garantisce un massimo di 100 righe simultaneamente presenti nel DOM, mantenendo fluida l'interazione utente.
 
-=== Limitazioni accesso dati PABX
+=== Limitazioni nell'accesso ai dati del PABX
 
-Problematica ricorrente: limitazione accesso dati centralino. Vendor fornisce solo tabella CDR e alcune API REST, non accesso completo database per sicurezza e supporto.
+Una problematica ricorrente durante lo sviluppo è stata rappresentata dalle limitazioni nell'accesso ai dati del centralino. Il vendor fornisce esclusivamente la tabella CDR e alcune API REST, senza concedere accesso completo al database per ragioni di sicurezza e supportabilità del sistema.
 
-Funzionalità avanzate richieste impossibili:
-- Correlazione con ticket supporto o dati CRM
-- Analisi qualità audio (metriche jitter, packet loss, MOS score)
-- Correlazione automatica con registrazioni audio e playback
-- Tracking dettagliato trasferimenti con tempi per ogni stato
+Questa limitazione ha reso impossibili diverse funzionalità avanzate inizialmente considerate:
+- Correlazione automatica con ticket di supporto o dati CRM
+- Analisi della qualità audio mediante metriche tecniche (jitter, packet loss, MOS score)
+- Integrazione con registrazioni audio e playback diretto dall'interfaccia
+- Tracking dettagliato dei trasferimenti di chiamata con tempi di permanenza in ogni stato
 
-Soluzione pragmatica: concentrarsi su funzionalità realizzabili, implementandole eccellentemente. In alcuni casi, funzionalità semplificate che fornivano comunque valore. Esempio: sistema mostra se chiamata registrata e fornisce identificativo, permettendo recupero manuale da PABX quando necessario.
+L'approccio adottato è stato pragmatico: concentrarsi sulle funzionalità realizzabili con i dati disponibili, implementandole con il massimo livello qualitativo possibile. In alcuni casi sono state sviluppate funzionalità semplificate che fornivano comunque valore agli utenti. Ad esempio, il sistema indica se una chiamata è stata registrata e fornisce l'identificativo necessario, permettendo il recupero manuale dalla piattaforma PABX quando necessario.
 
-Limitazioni comunicate trasparentemente agli stakeholder. Quando funzionalità richiesta, analizzati dati necessari, verificata disponibilità, e se non disponibili spiegato chiaramente. Comunicazione proattiva con dimostrazioni concrete: mostrare quali tabelle servirebbero, quali informazioni contengono, perché vendor non le espone.
+Le limitazioni sono state comunicate trasparentemente agli stakeholder. Di fronte a richieste di funzionalità non realizzabili, si è proceduto ad analizzare i dati necessari, verificarne la disponibilità, e nel caso di indisponibilità spiegare chiaramente le ragioni tecniche. La comunicazione proattiva è avvenuta mediante dimostrazioni concrete: mostrando quali tabelle sarebbero necessarie, quali informazioni contengono, e per quale motivo il vendor non le espone.
 
-Funzionalità reingegnerizzate per usare dati disponibili. Esempio: analisi distribuzione geografica chiamate, inizialmente concepita per località precise tramite dati non disponibili, reimplementata usando prefissi telefonici nei CDR, fornendo insight utili su provenienza chiamate.
+Diverse funzionalità sono state reingegnerizzate per utilizzare i dati effettivamente disponibili. Ad esempio, l'analisi della distribuzione geografica delle chiamate, inizialmente concepita per fornire località precise tramite dati non disponibili, è stata reimplementata utilizzando i prefissi telefonici presenti nei CDR, fornendo comunque insight utili sulla provenienza geografica delle chiamate.
 
-Esperienza ha evidenziato importanza comunicazione trasparente vincoli tecnici. Quando limitazioni spiegate con esempi concreti e linguaggio comprensibile, correlando richieste a dati necessari e spiegando inaccessibilità, stakeholder hanno compreso, apprezzato onestà, e collaborato a riprioritizzazione. Dialogo aperto ha mantenuto aspettative realistiche, evitato frustrazioni, e spesso stimolato creatività nell'identificare soluzioni alternative fornenti valore comparabile.
+Questa esperienza ha evidenziato l'importanza della comunicazione trasparente dei vincoli tecnici. Quando le limitazioni vengono spiegate con esempi concreti e linguaggio comprensibile, correlando le richieste ai dati necessari e illustrando le ragioni dell'inaccessibilità, gli stakeholder hanno dimostrato comprensione, apprezzamento per l'onestà, e disponibilità a collaborare nella riprioritizzazione delle funzionalità. Il dialogo aperto ha mantenuto le aspettative realistiche, evitato frustrazioni, e spesso stimolato creatività nell'identificare soluzioni alternative capaci di fornire valore comparabile.
