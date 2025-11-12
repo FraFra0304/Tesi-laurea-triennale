@@ -25,7 +25,7 @@ Per lo sviluppo del progetto è stato adottato il Modello di Sviluppo Evolutivo,
 === Il Modello di Sviluppo Evolutivo
 
 Il Modello Evolutivo è un approccio incrementale in cui gli incrementi successivi costituiscono versioni prototipali utilizzabili e valutabili dagli stakeholder. A differenza di modelli sequenziali rigidi, questo approccio permette di:
-
+#v(0.5em)
 - Rispondere a bisogni non inizialmente preventivabili: durante lo sviluppo possono emergere nuovi requisiti o modifiche a quelli esistenti
 - Produrre prototipi utilizzabili: ogni iterazione rilascia una versione funzionante del sistema che può essere testata e valutata
 - Ammettere iterazioni multiple: ogni fase può essere riattraversata più volte per raffinamenti successivi
@@ -75,21 +75,21 @@ Lo sviluppo del progetto è stato soggetto a diversi vincoli:
 
 \
 / Vincoli temporali:
-
+#v(0.5em)
 - Durata complessiva dello stage: 320 ore\
 - Necessità di produrre un prototipo dimostrabile entro le prime settimane\
 - Scadenze settimanali per il completamento degli sprint
 
 \
 / Vincoli tecnologici:
-
+#v(0.5em)
 - Integrazione obbligatoria con l'infrastruttura esistente di Cinquenet\
 - Utilizzo del database già in uso per i centralini PABX\
 - Requisiti di performance per la gestione di grandi volumi di dati storici
 
 \
 / Vincoli architetturali:
-
+#v(0.5em)
 - Necessità di un'architettura modulare per future estensioni\
 - Personalizzazione grafica per ciascun cliente finale
 
@@ -137,6 +137,7 @@ Durante la fase iniziale del progetto è stata condotta un'analisi dei rischi pe
 
 \
 / R1 - Non rispetto delle tempistiche:
+#v(0.5em)
 - #text(weight: "bold")[Descrizione:] Impossibilità di completare le funzionalità pianificate entro le 320 ore di stage.
 - #text(weight: "bold")[Probabilità:] Media
 - #text(weight: "bold")[Impatto:] Alto
@@ -155,6 +156,7 @@ Durante la fase iniziale del progetto è stata condotta un'analisi dei rischi pe
 
 \
 / R2 - Inaccuratezza dei dati mostrati:
+#v(0.5em)
 - #text(weight: "bold")[Descrizione:] Visualizzazione di statistiche e dati non corretti o fuorvianti per l'utente finale.
 - #text(weight: "bold")[Probabilità:] Alta
 - #text(weight: "bold")[Impatto:] Alto
@@ -174,6 +176,7 @@ Durante la fase iniziale del progetto è stata condotta un'analisi dei rischi pe
 
 \
 / R3 - Difficoltà nel recupero dei dati:
+#v(0.5em)
 - #text(weight: "bold")[Descrizione:] Complessità tecnica nell'estrazione efficiente dei dati dal database PABX.
 - #text(weight: "bold")[Probabilità:] Media
 - #text(weight: "bold")[Impatto:] Alto
@@ -191,6 +194,7 @@ Durante la fase iniziale del progetto è stata condotta un'analisi dei rischi pe
 
 \
 / R4 - Scarsa esperienza con le tecnologie utilizzate:
+#v(0.5em)
 - #text(weight: "bold")[Descrizione:]  Limitata familiarità con alcuni strumenti, linguaggi o framework necessari per il progetto.
 - #text(weight: "bold")[Probabilità:] Bassa
 - #text(weight: "bold")[Impatto:] Medio
@@ -208,6 +212,7 @@ Durante la fase iniziale del progetto è stata condotta un'analisi dei rischi pe
 
 \
 / R5 - Requisiti poco chiari o in evoluzione:
+#v(0.5em)
 - #text(weight: "bold")[Descrizione:]  Cambiamenti frequenti o ambiguità nei requisiti funzionali richiesti.
 - #text(weight: "bold")[Probabilità:] Media
 - #text(weight: "bold")[Impatto:] Medio
@@ -226,6 +231,7 @@ Durante la fase iniziale del progetto è stata condotta un'analisi dei rischi pe
 
 \
 / R6 - Problemi di performance del sistema:
+#v(0.5em)
 - #text(weight: "bold")[Descrizione:]  Tempi di risposta inaccettabili per l'utente finale, specialmente con grandi volumi di dati.
 - #text(weight: "bold")[Probabilità:] Media
 - #text(weight: "bold")[Impatto:] Basso

@@ -48,15 +48,16 @@ Il presente documento è strutturato secondo la seguente organizzazione:
 
 / #link(<cap:descrizione-stage>)[Il quarto capitolo]: fornisce un'introduzione teorica alle tecnologie e agli strumenti utilizzati, presentando le motivazioni alla base delle scelte architetturali e tecnologiche adottate.
 
-/ #link(<cap:descrizione-stage>)[Il quinto capitolo]: descrive nel dettaglio il lavoro svolto durante il periodo di stage, illustrando le problematiche incontrate, le soluzioni implementate e le funzionalità sviluppate.
+/ #link(<cap:architettura>)[Il quinto capitolo]: descrive l'architettura del sistema progettato, illustrando la struttura del database, le considerazioni sulla sicurezza e sulla scalabilità.
 
-/ #link(<cap:descrizione-stage>)[Il sesto capitolo]: presenta le conclusioni dell'esperienza, valutando il raggiungimento degli obiettivi prefissati, le conoscenze acquisite e i possibili sviluppi futuri del progetto.
+/ #link(<cap:implementazione>)[Il sesto capitolo]: presenta l'implementazione del sistema, dettagliando i pattern architetturali adottati, le problematiche affrontate con le relative soluzioni, e la realizzazione dei requisiti funzionali e non funzionali.
 
 
 #v(0.5em)
 #text(weight: "bold")[Convenzioni tipografiche:]
 #v(0.5em)
 Per la stesura del documento sono state adottate le seguenti convenzioni:
+#v(0.5em)
 - Gli acronimi, le abbreviazioni e i termini tecnici specialistici sono definiti nel glossario posto al termine del documento;
 
 - La prima occorrenza dei termini presenti nel glossario è evidenziata con la seguente notazione: termine^G^;

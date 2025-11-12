@@ -22,9 +22,9 @@
 #include "chapters/4_technologies.typ"
 #include "chapters/5_architecture.typ"
 #include "chapters/6_implementation.typ"
-/*#include "chapters/4_conclusion.typ"
+//#include "chapters/4_conclusion.typ"
 
-#include "docs/esempi.typ"*/
+//#include "docs/esempi.typ"
 
 // Backmatter
 #include "appendix/glossary/glossary.typ"

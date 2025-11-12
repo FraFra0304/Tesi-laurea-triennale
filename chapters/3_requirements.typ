@@ -12,12 +12,13 @@ _In questo capitolo vengono analizzati e approfonditi i requisiti individuati pe
 == Introduzione ai requisiti
 
 I requisiti del sistema sono stati identificati attraverso un processo di analisi condotto in collaborazione con il tutor aziendale e, successivamente, validati con il cliente finale durante la presentazione del primo prototipo funzionante. Questi sono stati suddivisi in due macro categorie principali:
-
+#v(1em)
 / Requisiti funzionali: Rappresentano le funzionalità che il sistema deve offrire per rispondere alle esigenze degli utenti finali, definendo le operazioni che la dashboard deve essere in grado di svolgere. Si suddividono in:
+
   - *Obbligatori*: indispensabili per il corretto funzionamento del sistema e per soddisfare le necessità primarie degli utenti
   - *Desiderabili*: non strettamente necessari, tuttavia se implementati garantiscono una migliore esperienza utente e una maggiore usabilità del software
   - *Opzionali*: la loro aggiunta non è essenziale per il funzionamento base del sistema, vengono implementati se rimane tempo a disposizione al termine dello sviluppo delle funzionalità prioritarie
-
+#v(1em)
 / Requisiti non funzionali: Di questa categoria fanno parte i requisiti qualitativi e quelli di vincolo. I primi garantiscono una qualità maggiore del software dal punto di vista delle prestazioni, usabilità, affidabilità e sicurezza. I requisiti di vincolo invece stabiliscono limitazioni o condizioni che il sistema deve rispettare, come tecnologie da utilizzare, standard aziendali o normative da seguire.
 
 == Tracciamento dei requisiti

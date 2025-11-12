@@ -1,4 +1,6 @@
-= Implementazione del Sistema<cap:implementazione_del_sistema>
+#pagebreak(to:"odd")
+
+= Implementazione<cap:implementazione>
 #text(style: "italic", [
     In questo capitolo viene descritta l'implementazione concreta del sistema, illustrando i pattern architetturali e di design utilizzati, le tecniche di sviluppo adottate, e come sono stati realizzati i requisiti funzionali. La trattazione copre l'organizzazione del codice, i meccanismi implementativi chiave, e le problematiche affrontate durante lo sviluppo con relative soluzioni.
 ])
@@ -122,7 +124,6 @@ module.exports = ExtController;
 #v(2em)
 
 *Models* (`/models`): contiene classi che incapsulano interazione con database. Ogni model corrisponde a una o più tabelle correlate e fornisce metodi per CRUD e query complesse. I model astraggono completamente i dettagli SQL dai controller: un controller non costruisce mai query SQL direttamente, ma invoca metodi del model con parametri business-logic. 
-Esempio:
 
 #v(1em)
 
@@ -178,12 +179,13 @@ module.exports = new ExtModel();
 #v(2em)
 
 *Middleware* (`/middleware`): contiene funzioni di elaborazione intermedia che operano tra ricezione richiesta ed esecuzione controller. Middleware implementati:
+#v(0.5em)
 - `authenticate`: verifica token JWT ed estrae informazioni utente
 - `authorize(role)`: verifica permessi per operazioni specifiche
 - `validateRequest(schema)`: valida parametri contro schema Joi
 - `rateLimiter`: previene abusi limitando richieste per IP
 - `errorHandler`: gestisce errori centralizzata
-
+#v(1em)
 *Utils* (`/utils`): contiene funzioni di utilità riutilizzabili per parsing e formattazione date, conversioni tra formati, validazioni comuni, hashing e crittografia. Centralizzano logica condivisa evitando duplicazione. Inoltre contiene il Query Builder per costruzione dinamica di query SQL complesse.
 
 Questa organizzazione segue il principio Single Responsibility: ogni modulo ha un'unica ragione di cambiamento. Facilita testing unitario (ogni componente testabile isolatamente con mock), debugging (problemi localizzabili rapidamente), e onboarding (struttura chiara permette comprensione rapida).
@@ -298,7 +300,7 @@ class QueryBuilder {
 #v(2em)
 
 Il pattern garantisce sicurezza e manutenibilità:
-
+#v(0.5em)
 - *Prevenzione SQL Injection*: uso esclusivo di prepared statement con binding parametrico. I valori utente non vengono mai concatenati direttamente nella query
 - *Leggibilità*: il method chaining rende esplicita la logica di costruzione della query
 - *Flessibilità*: aggiungere nuovi filtri richiede solo aggiungere metodi al builder senza modificare codice esistente
@@ -372,7 +374,6 @@ class RingGroupModel extends BaseModel {
 module.exports = new RinGroupModel();
 ```
 
-#v(2em)
 
 === Chain of Responsibility
 
@@ -418,7 +419,7 @@ router.post(
 module.exports = router;
 ```
 
-#v(1em)
+#v(2em)
 
 
 Ogni route definisce una pipeline specifica componendo middleware riutilizzabili. L'ordine è cruciale: l'autenticazione deve precedere l'autorizzazione, la validazione deve precedere la business logic.
@@ -430,13 +431,15 @@ L'autenticazione è implementata tramite JSON Web Token (JWT), standard industri
 === Processo di login
 
 Al login, la sequenza è:
+#v(0.5em)
 1. Client invia POST a `/auth/login` con username e password.
 2. Controller autentica credenziali contro database usando bcrypt per confronto hash.
 3. Se valide, genera JWT contenente user ID, nome, username e ruolo.
 4. Token firmato con chiave segreta (HMAC-SHA256) memorizzata in variabile ambiente.
 5. Token restituito al client con scadenza configurabile (default 30 giorni).
 
-Implementazione:
+#v(1em)
+
 ```javascript
 const AuthController = {
   login: async (req, res) => {
@@ -505,18 +508,18 @@ Gestione errori implementa middleware centralizzato che intercetta eccezioni da 
 === Classificazione errori
 
 Errori classificati in categorie con trattamento differenziato:
+#v(0.5em)
+/ *Errori validazione (400)*:: input non conforme, parametri mancanti/malformati. Dettagli specifici su validazione fallita per correzione immediata.
 
-*Errori validazione* (400): input non conforme, parametri mancanti/malformati. Dettagli specifici su validazione fallita per correzione immediata.
+/ *Errori autenticazione (401)*:: token mancante, scaduto, invalido. Istruzione di effettuare nuovo login.
 
-*Errori autenticazione* (401): token mancante, scaduto, invalido. Istruzione di effettuare nuovo login.
+/ *Errori autorizzazione (403)*:: utente autenticato ma senza permessi. Distingue da "non sei loggato".
 
-*Errori autorizzazione* (403): utente autenticato ma senza permessi. Distingue da "non sei loggato".
+/ *Errori risorsa non trovata (404)*:: risorsa richiesta non esiste. Distingue tra errore client e server.
 
-*Errori risorsa non trovata* (404): risorsa richiesta non esiste. Distingue tra errore client e server.
+/ *Errori database (500)*:: problemi connessione, violazioni vincoli, timeout. Loggati con priorità alta.
 
-*Errori database* (500): problemi connessione, violazioni vincoli, timeout. Loggati con priorità alta.
-
-*Errori interni* (500): eccezioni non anticipate, bug. Loggati con stack trace completo.
+/ *Errori interni (500)*:: eccezioni non anticipate, bug. Loggati con stack trace completo.
 
 
 == Implementazione delle API REST
@@ -530,7 +533,7 @@ Le API seguono principi REST con rigore architetturale.
 - *PUT*: aggiornamento completo risorse esistenti, idempotente
 - *DELETE*: rimozione risorse, idempotente
 
-Esempio:
+#v(1em)
 ```javascript
 // GET /api/users - lista utenti
 // GET /api/users/:id - dettaglio utente
@@ -542,6 +545,7 @@ Esempio:
 === URL gerarchici
 
 Risorse identificate da URL che riflettono relazioni del dominio:
+#v(1em)
 ```
 /api/users/{userId}/extensions - interni associati a utente
 /api/calls/{callId}/linked - chiamate correlate
@@ -551,6 +555,7 @@ Risorse identificate da URL che riflettono relazioni del dominio:
 === Codici di stato HTTP
 
 Risposte usano codici semanticamente corretti:
+#v(0.5em)
 - *200 OK*: operazione riuscita con contenuto
 - *201 Created*: risorsa creata (include header Location)
 - *204 No Content*: operazione riuscita senza contenuto di ritorno
@@ -561,32 +566,6 @@ Risposte usano codici semanticamente corretti:
 - *409 Conflict*: conflitto stato (es. username già esistente)
 - *500 Internal Server Error*: errori server
 
-=== Formato risposte
-
-Tutti i payload in JSON con strutture consistenti:
-
-Successo:
-```json
-{
-  "data": { ... },
-  "meta": {
-    "timestamp": "2024-01-15T10:30:00Z",
-    "requestId": "req_abc123"
-  }
-}
-```
-
-Errore:
-```json
-{
-  "error": {
-    "message": "Descrizione errore",
-    "code": 400,
-    "details": { "field": "username", "issue": "già esistente" },
-    "requestId": "req_abc123"
-  }
-}
-```
 
 == Implementazione frontend
 
@@ -596,7 +575,7 @@ Il frontend è strutturato seguendo un'architettura modulare multi-pagina, dove 
 
 L'applicazione è composta da file HTML separati per ogni sezione funzionale. 
 Per garantire consistenza visiva e ridurre duplicazione codice, componenti comuni come header e navbar sono estratti in file dedicati e inclusi dinamicamente tramite JavaScript in ciascuna pagina:
-
+#v(1em)
 ```javascript
 // Caricamento componenti comuni
 fetch('components/header.html')
@@ -607,10 +586,11 @@ fetch('components/navbar.html')
     .then(response => response.text())
     .then(html => document.getElementById('navbar-container').innerHTML = html);
 ```
-
+#v(2em)
 Questo approccio consente modifiche centralizzate ai componenti condivisi propagate automaticamente su tutte le pagine.
 
 Ogni pagina HTML è associata a un file JavaScript specifico contenente logica applicativa relativa. Complementarmente, file JavaScript globali (`global.js`, `config.js`) centralizzano:
+#v(0.5em)
 - Variabili di configurazione (URL API, costanti applicative)
 - Funzioni utility riutilizzabili (formattazione date, conversione durate, gestione token autenticazione)
 - Costanti condivise (mappature stato chiamate, configurazioni)
@@ -620,7 +600,7 @@ Ogni pagina HTML è associata a un file JavaScript specifico contenente logica a
 Per gestione componenti complessi come tabelle DataTables e grafici Chart.js, è implementato pattern Factory garantendo creazione consistente e configurabile istanze senza duplicazione codice.
 
 *CallsTableFactory* gestisce creazione tabelle chiamate con configurazioni specifiche per contesto:
-
+#v(1em)
 ```javascript
 // Tabella chiamate in entrata
 CallsTableFactory.createIncomingTable(
@@ -649,22 +629,24 @@ CallsTableFactory.createDashboardTable(
     dids
 );
 ```
-
+#v(2em)
 Factory instanzia classe `CallsTableManager` configurata con:
+#v(0.5em)
 - Selettore CSS tabella target
 - Endpoint API per recupero dati
 - Tipo tabella (entrata/uscita) determinando colonne e rendering
 - Configurazioni DataTables (paginazione, ordinamento, export)
 - Gestori eventi (click riga, apertura modal dettaglio)
-
+#v(1em)
 `CallsTableManager` incapsula la logica specifica per gestione tabelle chiamate, inclusi:
+#v(0.5em)
 - *Recupero dati*: chiamate asincrone API con gestione autenticazione e errori
 - *Column definitions*: configurazione colonne con renderer custom per formattazione dati (date, durate, stati)
 - *Interattività*: gestione click righe aprendo modal con dettagli chiamata
 - *Export*: integrazione pulsanti export CSV/Excel/PDF
-
+#v(1em)
 `CallsTableManager` implementa anche pattern Strategy per rendering celle, permettendo logiche visualizzazione diverse basate su tipo tabella. Ad esempio, rendering stato chiamata utilizza mappatura colori:
-
+#v(1em)
 ```javascript
 this.statusLabels = {
     "ANSWER": { title: 'ANSWER', class: 'bg-label-success' },
@@ -679,7 +661,7 @@ renderStatus(data, type, full) {
     return `<span class="badge ${status.class}">${status.title}</span>`;
 }
 ```
-
+#v(2em)
 Analogamente, *ChartsFactory* gestisce creazione grafici Chart.js con configurazioni predefinite per diverse tipologie di visualizzazione (linee temporali, barre comparative, torte distribuzione).
 
 === Librerie frontend
@@ -690,12 +672,12 @@ Analogamente, *ChartsFactory* gestisce creazione grafici Chart.js con configuraz
 - Paginazione configurabile
 - Export dati multipli formati (CSV, Excel, PDF)
 - Design responsive adattabile dispositivi mobili
-
+#v(1em)
 *Chart.js* utilizzato per visualizzazioni grafiche:
 - Grafici linee per trend temporali (volumi chiamate, durate medie)
 - Grafici barre per distribuzioni (chiamate per interno, per direzione)
 - Grafici torta per composizioni percentuali (distribuzione esiti)
-
+#v(1em)
 *SweetAlert2* per notifiche user-friendly e modal conferma azioni, sostituendo alert nativi browser con interfaccia gradevole e personalizzabile.
 
 == Sincronizzazione dati CDR
@@ -705,16 +687,16 @@ La sincronizzazione dei dati dal centralino rappresenta un processo critico per 
 === Architettura del processo di sincronizzazione
 
 Il sistema implementa una sincronizzazione incrementale schedulata periodicamente (configurabile, con default impostato a esecuzione giornaliera a mezzanotte). Il processo segue una sequenza di operazioni ben definita:
-
+#v(0.5em)
 1. *Recupero timestamp*: interrogazione della tabella `sync_log` per determinare il timestamp dell'ultima sincronizzazione completata con successo
 2. *Query selettiva*: estrazione dal database PABX dei soli record CDR con `calldate` successivo al timestamp recuperato
-3. *Elaborazione batch*: trasferimento dei record in lotti di 1000 elementi, bilanciando consumo di memoria e numero di query al database
+3. *Elaborazione batch*: trasferimento dei record in batch di 1000 elementi, bilanciando consumo di memoria e numero di query al database
 4. *Inserimento con deduplicazione*: inserimento nel database locale verificando duplicati tramite campo `uniqueid`
 5. *Logging operazioni*: registrazione dettagliata dell'operazione nella tabella `sync_log` includendo metriche quali numero record importati, durata esecuzione ed eventuali errori
 6. *Aggiornamento stato*: persistenza del nuovo timestamp di sincronizzazione per le elaborazioni successive
 
 L'implementazione del processo è mostrata nel seguente estratto:
-
+#v(1em)
 ```javascript
 async function syncCDR() {
   const startTime = Date.now();
@@ -750,11 +732,11 @@ async function syncCDR() {
   }
 }
 ```
-
+#v(1em)
 === Gestione transazionale e recupero errori
 
 Gli inserimenti avvengono all'interno di transazioni database per garantire atomicità delle operazioni: l'intero batch viene importato con successo oppure l'operazione viene completamente annullata, prevenendo stati inconsistenti nel database. Il sistema implementa una gestione errori articolata su più livelli:
-
+#v(0.5em)
 *Errori di connessione*: meccanismo di retry automatico con backoff esponenziale su tre tentativi con intervalli crescenti (1 secondo, 2 secondi, 4 secondi) per gestire problematiche di rete transitorie.
 
 *Errori di parsing*: i record singoli non validi vengono registrati nel log ma non bloccano l'importazione dei record rimanenti, garantendo massima continuità operativa.
@@ -764,12 +746,13 @@ Gli inserimenti avvengono all'interno di transazioni database per garantire atom
 === Sistema di monitoring
 
 Il sistema traccia ogni sincronizzazione registrando metriche fondamentali per il monitoraggio:
-
+#v(0.5em)
 - Durata media delle sincronizzazioni per identificare eventuali degradazioni prestazionali
 - Tasso di errori per rilevare tempestivamente problematiche sistemiche
 - Volume dati importati per identificare variazioni anomale indicative di malfunzionamenti del PABX
-
+#v(1em)
 Il sistema di alerting configurabile notifica l'amministratore in presenza di condizioni anomale:
+#v(0.5em)
 - Tre sincronizzazioni consecutive fallite generano notifica email
 - Durata sincronizzazione superiore a dieci volte la media produce warning prestazionale
 - Assenza di nuovi record per oltre 24 ore segnala possibile interruzione nella raccolta dati
@@ -781,7 +764,7 @@ Durante lo sviluppo del sistema sono emerse diverse sfide tecniche che hanno ric
 === Gestione dell'asincronicità
 
 La natura asincrona di JavaScript e delle operazioni di rete ha richiesto particolare attenzione nella progettazione. Il sistema adotta sistematicamente Promise e sintassi async/await per garantire leggibilità e manutenibilità del codice.
-
+#v(0.5em)
 *Loading states*: sono stati implementati indicatori visivi (spinner, progress bar) durante operazioni di lunga durata, aspetto cruciale per l'esperienza utente quando si elaborano volumi significativi di dati.
 
 *Gestione errori di rete*: il sistema implementa retry automatico con backoff esponenziale per richieste fallite a causa di problematiche transitorie (timeout, errori 5xx del server). Il meccanismo effettua fino a tre tentativi con intervalli crescenti prima di presentare l'errore definitivo all'utente.
@@ -789,7 +772,7 @@ La natura asincrona di JavaScript e delle operazioni di rete ha richiesto partic
 *Timeout configurabili*: ogni richiesta ha un timeout configurabile (default 30 secondi) per evitare attese indefinite. Al superamento del timeout, la richiesta viene cancellata e l'utente viene informato dell'indisponibilità temporanea del servizio.
 
 *Gestione race condition*: quando l'utente modifica rapidamente i filtri di ricerca, possono generarsi richieste multiple che completano in ordine non determinabile. La soluzione implementata utilizza cancellazione delle richieste tramite `AbortController`:
-
+#v(1em)
 ```javascript
 let currentRequest = null;
 
@@ -811,56 +794,51 @@ async function loadData(filters) {
   }
 }
 ```
-
-Questo meccanismo garantisce che vengano visualizzati esclusivamente i risultati dell'ultima richiesta effettuata dall'utente.
-
+#v(2em)
 === Visualizzazione di dataset estesi
 
 L'applicazione gestisce dataset di dimensioni considerevoli, potenzialmente comprendenti anni di storico chiamate. La visualizzazione diretta di tali volumi risulta impraticabile sia per ragioni prestazionali che di usabilità.
-
+#v(1em)
 *Campionamento automatico per grafici*: il backend determina automaticamente la granularità appropriata in base al range temporale richiesto:
-- Intervalli di poche ore: aggregazione in bucket di 5 minuti
 - Intervalli giornalieri: aggregazione in bucket orari
 - Intervalli settimanali o mensili: aggregazione in bucket giornalieri
 - Intervalli annuali: aggregazione in bucket mensili
 
-Questa strategia mantiene il numero di punti dati entro limiti gestibili (inferiore a 300) indipendentemente dall'ampiezza del periodo analizzato.
-
+Questa strategia mantiene il numero di punti dati entro limiti gestibili (inferiore a 30) indipendentemente dall'ampiezza del periodo analizzato.
+#v(1em)
 *Paginazione server-side per tabelle*: il frontend richiede una pagina specifica di risultati (default 50 righe per pagina), mentre il backend restituisce esclusivamente quella porzione insieme al conteggio totale dei record. Il sistema avvisa l'utente quando un filtro produce un numero eccessivo di risultati (superiore a 10.000 record), suggerendo un raffinamento dei criteri pur permettendo di procedere con la visualizzazione.
 
 === Ottimizzazione delle performance
 
-Le performance rappresentano una preoccupazione costante dello sviluppo, rispondendo direttamente al requisito non funzionale R-NQ-1 sui tempi di risposta rapidi.
-
+Le performance rappresentano una preoccupazione costante dello sviluppo, rispondendo direttamente al requisito non funzionale #link(<r-nq-2>)[R-NQ-1] sui tempi di risposta rapidi.
+#v(1em)
 *Profiling delle query*: il backend è strumentato per registrare il tempo di esecuzione di ogni query database. Le query che eccedono soglie prestazionali vengono analizzate mediante il comando `EXPLAIN` di MySQL per identificare colli di bottiglia.
 
-Un esempio concreto di ottimizzazione: la query per calcolare il volume di chiamate per interno in un mese richiedeva inizialmente 8 secondi con 500.000 record. L'analisi tramite `EXPLAIN` ha rivelato un full table scan. La creazione di un indice composito su `(calldate, src, disposition)` ha ridotto il tempo a 0.3 secondi, ottenendo un miglioramento di 25 volte.
+Un esempio concreto di ottimizzazione: la query per calcolare il volume di chiamate per interno in un mese richiedeva inizialmente 5 secondi con 100.000 record. L'analisi tramite `EXPLAIN` ha rivelato un full table scan. La creazione di un indice composito su `(calldate, src, disposition)` ha ridotto il tempo a 0.5 secondi, ottenendo un miglioramento di 10 volte.
 
 Altri indici strategici creati durante l'ottimizzazione:
-- Indice su `linkedid` per correlazione chiamate correlate (riduzione da 5 secondi a 0.2 secondi)
+#v(0.5em)
+- Indice su `linkedid` per correlazione chiamate correlate (riduzione da 5 secondi a 0.5 secondi)
 - Indice su `dst` per statistiche su numeri chiamati
 - Indici compositi su combinazioni di campi frequentemente filtrati insieme
 
-Gli indici migliorano drasticamente le performance in lettura introducendo un overhead nelle operazioni di scrittura. Nel contesto applicativo, caratterizzato da sincronizzazioni periodiche e operazioni di lettura dominanti, questo trade-off risulta ampiamente favorevole. L'analisi ha evidenziato che gli indici rallentano le sincronizzazioni del 15% ma migliorano le query di un fattore compreso tra 10 e 30 volte.
-
+Gli indici migliorano drasticamente le performance in lettura introducendo un overhead nelle operazioni di scrittura. Nel contesto applicativo, caratterizzato da sincronizzazioni periodiche e operazioni di lettura dominanti, questo trade-off risulta ampiamente favorevole. L'analisi ha evidenziato che gli indici rallentano le sincronizzazioni ma migliorano notevolmente le performance delle query di lettura, che sono l'operazione prevalente nell'uso quotidiano del sistema.
+#v(1em)
 *Riduzione volume dati trasferiti*: le query selezionano esplicitamente solo le colonne necessarie alla visualizzazione. Per i grafici, il backend calcola le aggregazioni anziché trasferire dati grezzi al frontend. Ad esempio, un grafico dei volumi orari restituisce 24 valori aggregati anziché migliaia di record individuali, riducendo il payload da megabyte a kilobyte.
-
-*Performance rendering frontend*: il sistema impone un limite massimo di 500 punti per grafico, con il backend che reaggrega automaticamente i dati se necessario. La paginazione server-side per le tabelle garantisce un massimo di 100 righe simultaneamente presenti nel DOM, mantenendo fluida l'interazione utente.
+#v(1em)
+*Performance rendering frontend*: il sistema impone un limite massimo di 30 punti per grafico, con il backend che reaggrega automaticamente i dati se necessario. La paginazione server-side per le tabelle garantisce un massimo di 100 righe simultaneamente presenti nel DOM, mantenendo fluida l'interazione utente.
 
 === Limitazioni nell'accesso ai dati del PABX
 
 Una problematica ricorrente durante lo sviluppo è stata rappresentata dalle limitazioni nell'accesso ai dati del centralino. Il vendor fornisce esclusivamente la tabella CDR e alcune API REST, senza concedere accesso completo al database per ragioni di sicurezza e supportabilità del sistema.
 
 Questa limitazione ha reso impossibili diverse funzionalità avanzate inizialmente considerate:
-- Correlazione automatica con ticket di supporto o dati CRM
-- Analisi della qualità audio mediante metriche tecniche (jitter, packet loss, MOS score)
+#v(0.5em)
 - Integrazione con registrazioni audio e playback diretto dall'interfaccia
 - Tracking dettagliato dei trasferimenti di chiamata con tempi di permanenza in ogni stato
+- Statistiche avanzate di performance per agente (tempi di risposta, pause, gestione code)
+#v(1em)
+L'approccio adottato è stato pragmatico: concentrarsi sulle funzionalità realizzabili con i dati disponibili, implementandole con il massimo livello qualitativo possibile. Le limitazioni sono state comunicate trasparentemente al tutor aziendale durante le riunioni settimanali. Di fronte a richieste di funzionalità non realizzabili con i dati CDR disponibili, si è proceduto ad analizzare quali informazioni sarebbero necessarie, verificarne la disponibilità nel database PABX, e nel caso di indisponibilità spiegare le ragioni tecniche dell'impossibilità.
 
-L'approccio adottato è stato pragmatico: concentrarsi sulle funzionalità realizzabili con i dati disponibili, implementandole con il massimo livello qualitativo possibile. In alcuni casi sono state sviluppate funzionalità semplificate che fornivano comunque valore agli utenti. Ad esempio, il sistema indica se una chiamata è stata registrata e fornisce l'identificativo necessario, permettendo il recupero manuale dalla piattaforma PABX quando necessario.
+L'esperienza ha evidenziato come la comprensione dei vincoli tecnici del sistema sorgente sia fondamentale nella fase di analisi dei requisiti. La verifica preventiva della disponibilità dei dati necessari per ciascuna funzionalità richiesta ha permesso di evitare investimenti di tempo su sviluppi non realizzabili, concentrando gli sforzi sulle funzionalità effettivamente implementabili e maggiormente prioritarie per l'azienda.
 
-Le limitazioni sono state comunicate trasparentemente agli stakeholder. Di fronte a richieste di funzionalità non realizzabili, si è proceduto ad analizzare i dati necessari, verificarne la disponibilità, e nel caso di indisponibilità spiegare chiaramente le ragioni tecniche. La comunicazione proattiva è avvenuta mediante dimostrazioni concrete: mostrando quali tabelle sarebbero necessarie, quali informazioni contengono, e per quale motivo il vendor non le espone.
-
-Diverse funzionalità sono state reingegnerizzate per utilizzare i dati effettivamente disponibili. Ad esempio, l'analisi della distribuzione geografica delle chiamate, inizialmente concepita per fornire località precise tramite dati non disponibili, è stata reimplementata utilizzando i prefissi telefonici presenti nei CDR, fornendo comunque insight utili sulla provenienza geografica delle chiamate.
-
-Questa esperienza ha evidenziato l'importanza della comunicazione trasparente dei vincoli tecnici. Quando le limitazioni vengono spiegate con esempi concreti e linguaggio comprensibile, correlando le richieste ai dati necessari e illustrando le ragioni dell'inaccessibilità, gli stakeholder hanno dimostrato comprensione, apprezzamento per l'onestà, e disponibilità a collaborare nella riprioritizzazione delle funzionalità. Il dialogo aperto ha mantenuto le aspettative realistiche, evitato frustrazioni, e spesso stimolato creatività nell'identificare soluzioni alternative capaci di fornire valore comparabile.

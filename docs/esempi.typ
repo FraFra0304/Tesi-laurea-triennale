@@ -17,7 +17,7 @@
 )
 == Bibliografia
 Per la gestione della bibliografia leggi il file `appendix/bibliography/bibliography.typ`.
-Le citazioni si fanno con \@ es. @models-and-fair-use.
+Le citazioni si fanno con \@ es. @typst.
 
 == Blocchi di codice
 È possibile inserire blocchi di codice usando la libreria #linkfn("https://typst.app/universe/package/codly/")[Codly] (dopo averla importata).
@@ -140,6 +140,6 @@ Fai riferimento alla documentazione di questo progetto di SWE:
 Il tracciamento dei requisiti viene fatto attraverso la tabella in `/chapters/data/requirements_list.typ`
 Questo permette di:
 - Conteggiare in maniera corretta i requisiti.
-- Creare la @tab:riepilogo-requisiti e la @tab:requisiti-soddisfatti
+/*- Creare la @tab:riepilogo-requisiti e la @tab:requisiti-soddisfatti*/
 #v(1em)
 #align(center)[*Se non ti serve togli tutto.*]
