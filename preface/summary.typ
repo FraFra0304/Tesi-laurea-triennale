@@ -9,46 +9,13 @@
 #text(24pt, weight: "semibold", abstract)
 
 #v(1em)
-Il presente documento descrive il lavoro svolto durante il periodo di stage curricolare, della durata di circa trecentoventi ore, dal laureando #text(myName) presso l'azienda #text(myCompany). Lo stage è stato condotto sotto la supervisione del tutor aziendale #myTutor, mentre il prof. #text(myProf) ha ricoperto il ruolo di tutor accademico.
+Il presente documento descrive il lavoro svolto durante il periodo di stage curricolare dal laureando #text(myName) presso l'azienda #text(myCompany) di Cerea (VR). Lo stage, della durata complessiva di circa trecentoventi ore, si è svolto al termine del percorso di studi della Laurea Triennale in Informatica presso l'Università degli Studi di Padova, sotto la supervisione del tutor aziendale #myTutor e del tutor accademico prof. #text(myProf).
+
+Il progetto ha avuto come obiettivo lo sviluppo di una dashboard web per l'analisi delle chiamate telefoniche, destinata ai clienti aziendali che utilizzano i centralini virtuali PABX forniti da Cinquenet. La piattaforma consente di visualizzare statistiche dettagliate sulle chiamate effettuate e ricevute, applicare filtri avanzati per interno, ring group, DID e periodo temporale, e generare report personalizzati esportabili in formato PDF e CSV.
+
+Il sistema è stato realizzato interamente ex novo, adottando un'architettura three-tier che separa presentazione, logica applicativa e persistenza dei dati. Il backend, sviluppato in Node.js con Express, espone API RESTful per l'elaborazione dei dati telefonici estratti dai Call Detail Record del centralino. Il frontend, implementato con tecnologie web standard HTML5, CSS3 e JavaScript, presenta i dati attraverso grafici interattivi, tabelle dettagliate e card informative con metriche aggregate.
+
+Lo sviluppo ha seguito il Modello Evolutivo con iterazioni settimanali, permettendo di rilasciare un MVP funzionante nelle prime settimane e di raffinare progressivamente il sistema sulla base dei feedback ricevuti dal tutor aziendale e dal cliente finale. Particolare attenzione è stata dedicata all'ottimizzazione delle query SQL per garantire tempi di risposta adeguati anche su grandi volumi di dati storici.
+
+Il progetto ha raggiunto tutti gli obiettivi prefissati, inclusi quelli inizialmente classificati come opzionali, producendo un sistema completo attualmente in produzione che genera valore concreto per l'azienda e i suoi clienti.
 \ \
-/*Questa tesi tratta la progettazione e lo sviluppo di *Nome progetto*, una piattaforma web il cui scopo è .... L'obiettivo è quello di ....
-
-#linebreak()
-#text(24pt, weight: "semibold")[Organizzazione del testo]
-#linebreak()
-#v(1em)
-
-/ #link(<cap:introduzione>)[Il primo capitolo]: introduce l'azienda, il progetto e le motivazioni che mi hanno portato a sceglierlo;
-/ #link(<cap:descrizione-stage>)[Il secondo capitolo]: descrive l'azienda, il progetto e l'organizzazione del lavoro, definendo gli obiettivi e analizzando i rischi;
-
-#linebreak()
-#text(24pt, weight: "semibold", "Convenzioni tipografiche")
-#linebreak()
-#v(1em)
-Durante la stesura del testo ho scelto di adottare le seguenti convenzioni tipografiche:
-
-//Preferenze personali modificabili a discrezione tua o del relatore
-- Gli acronimi, le abbreviazioni e i termini di uso non comune menzionati vengono definiti nel #link(<glossary>)[glossario], situato alla fine del documento (#link(<glossary>)[p. #context counter(page).at(<glossary>).at(0)]);
-- Per la prima occorrenza dei termini riportati nel glossario viene utilizzata la seguente nomenclatura: #glossary-style[termine]\;
-- I termini in lingua straniera non di uso comune o facenti parti del gergo tecnico sono evidenziati con il carattere _corsivo_;
-- I nomi di funzioni o variabili appartenenti ad un linguaggio di programmazione vengono scritte con un carattere `monospaziato`;
-- Le citazioni ad un libro o ad una risorsa presente nella #link(<bibliography>)[bibliografia] (#link(<bibliography>)[p. #context counter(page).at(<bibliography>).at(0)]) saranno affiancate dal rispettivo numero identificativo, es. $[1]$;
-- I blocchi di codice sono rappresentati nel seguente modo
-#linebreak()
-#figure(caption: "Codice d'esempio.")[
-```c
-float Q_rsqrt( float number ){
-	long i;
-	float x2, y;
-	const float threehalfs = 1.5F;
-	x2 = number * 0.5F;
-	y  = number;
-	i  = * (long * ) &y;
-	i  = 0x5f3759df - (i>>1);
-	y  = * (float * ) &i;
-	y  = y * ( threehalfs - ( x2 * y * y ) );
-//y  = y * ( threehalfs - ( x2 * y * y ) );
-	return y;
-}
-```
-]*/
