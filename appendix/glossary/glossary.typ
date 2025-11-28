@@ -4,4 +4,5 @@
 
 #pagebreak(to:"odd")
 #heading(numbering: none, glossary) <glossary>
-#print-glossary(glossary-terms, deduplicate-back-references: true)
+
+#print-glossary(glossary-terms, disable-back-references: true, show-all: true)

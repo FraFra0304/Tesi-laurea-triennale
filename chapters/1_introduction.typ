@@ -1,6 +1,6 @@
 #import "@preview/codly:1.3.0": *
 #import "@preview/codly-languages:0.1.8": *
-#import "../config/thesis-config.typ": gl, glpl, glossary-style, linkfn
+#import "../config/thesis-config.typ": gl, glpl, glossary-style, linkfn, gls
 
 = Introduzione <cap:introduzione>
 
@@ -32,9 +32,9 @@ Un'area di crescente importanza nel portfolio aziendale è rappresentata dalla c
 == Motivazone del progetto
 Ho scelto di svolgere lo stage presso Cinquenet srl per diverse ragioni che rendevano questa opportunità particolarmente interessante dal punto di vista formativo e professionale. Innanzitutto, conoscevo già l'azienda e il suo approccio lavorativo, il che mi ha permesso di valutare positivamente l'ambiente e le metodologie operative.
 
-La decisione di non optare per un'azienda tradizionalmente focalizzata sulla programmazione è stata dettata dal desiderio di ampliare le mie competenze in un contesto più diversificato. Mi intrigava l'idea di lavorare in un'azienda operante nel mondo dell'informatica ma con un focus specifico su reti, connessioni e centralini virtuali PABX, settori che offrono prospettive di crescita professionale complementari allo sviluppo software puro.
+La decisione di non optare per un'azienda tradizionalmente focalizzata sulla programmazione è stata dettata dal desiderio di ampliare le mie competenze in un contesto più diversificato. Mi intrigava l'idea di lavorare in un'azienda operante nel mondo dell'informatica ma con un focus specifico su reti, connessioni e centralini virtuali #gl("pabx"), settori che offrono prospettive di crescita professionale complementari allo sviluppo software puro.
 
-Il progetto di stage consiste nello sviluppo di una dashboard web che consente ai clienti di accedere a tutte le statistiche e i dettagli delle chiamate effettuate e ricevute. La piattaforma offre funzionalità di filtraggio avanzate per interno, ring group, DID e periodi temporali, presentando i dati attraverso statistiche, grafici e tabelle dettagliate. Tutti i contenuti sono progettati per essere facilmente stampabili ed esportabili in formato PDF e CSV.
+Il progetto di stage consiste nello sviluppo di una dashboard web che consente ai clienti di accedere a tutte le statistiche e i dettagli delle chiamate effettuate e ricevute. La piattaforma offre funzionalità di filtraggio avanzate per interno, #gl("ring-group"), #gl("did") e periodi temporali, presentando i dati attraverso statistiche, grafici e tabelle dettagliate. Tutti i contenuti sono progettati per essere facilmente stampabili ed esportabili in formato PDF e CSV.
 
 Questo progetto rappresenta un'opportunità ideale per combinare competenze di programmazione web con la conoscenza del mondo dei centralini virtuali e delle telecomunicazioni aziendali, offrendo un'esperienza formativa completa e multidisciplinare.
 
@@ -60,6 +60,6 @@ Per la stesura del documento sono state adottate le seguenti convenzioni:
 #v(0.5em)
 - Gli acronimi, le abbreviazioni e i termini tecnici specialistici sono definiti nel glossario posto al termine del documento;
 
-- La prima occorrenza dei termini presenti nel glossario è evidenziata con la seguente notazione: termine^G^;
+- La prima occorrenza dei termini presenti nel glossario è evidenziata con la seguente notazione: #gl("api");
 
 - I termini in lingua straniera e il gergo tecnico sono riportati in corsivo.

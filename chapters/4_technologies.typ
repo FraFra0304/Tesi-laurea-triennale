@@ -19,14 +19,14 @@
 #figure(
     image("../images/html_css_js.png", height: 15%),
     caption: [Logo HTML5, CSS3 e JavaScript]
-)
+) <logo_html_css_js>
 
-HTML (HyperText Markup Language), CSS (Cascading Style Sheets) e JavaScript sono i linguaggi fondamentali per lo sviluppo di applicazioni web. HTML fornisce la struttura semantica dei contenuti, CSS gestisce la presentazione visuale e il layout, mentre JavaScript implementa la logica interattiva e il comportamento dinamico dell'applicazione.
+HTML (HyperText Markup Language), CSS (Cascading Style Sheets) e JavaScript (@logo_html_css_js) sono i linguaggi fondamentali per lo sviluppo di applicazioni web. HTML fornisce la struttura semantica dei contenuti, CSS gestisce la presentazione visuale e il layout, mentre JavaScript implementa la logica interattiva e il comportamento dinamico dell'applicazione.
 
 #v(1em)
 / Motivazioni della scelta:
 
-La decisione di utilizzare le tecnologie web native, senza framework moderni come React Angular o Vue.js, è stata guidata da specifici vincoli aziendali e caratteristiche del progetto:
+La decisione di utilizzare le tecnologie web native, senza #gl("framework") moderni come React Angular o Vue.js, è stata guidata da specifici vincoli aziendali e caratteristiche del progetto:
 #v(0.5em)
 - #text(weight: "bold")[Vincolo aziendale:] L'azienda ospitante ha espresso la necessità di evitare l'adozione di framework complessi com curve di apprendimento ripide e dipendenze esterne. I dipendenti dell'azienda hanno una familiarità consolidata con HTML, CSS e JavaScript, rendendo più agevole la manutenzione e l'evoluzione del codice nel tempo.
 
@@ -41,9 +41,9 @@ La decisione di utilizzare le tecnologie web native, senza framework moderni com
 #figure(
     image("../images/nodejs.png", height: 15%),
     caption: [Logo Node.js]
-)
+) <logo_nodejs>
 
-Node.js è un ambiente di esecuzione JavaScript lato server che consente di sviluppare applicazioni scalabili e ad alte prestazioni. Viene utilizzato per gestire il backend dell'applicazione, inclusa la logica di business, la gestione delle richieste HTTP e l'interazione con il database.
+Node.js @nodejs (@logo_nodejs) è un ambiente di esecuzione JavaScript lato server che consente di sviluppare applicazioni scalabili e ad alte prestazioni. Viene utilizzato per gestire il backend dell'applicazione, inclusa la logica di business, la gestione delle richieste HTTP e l'interazione con il database.
 
 #v(1em)
 / Motivazioni della scelta:
@@ -65,9 +65,9 @@ La scelta di Node.js per lo sviluppo del backend è stata motivata da diverse co
 #figure(
     image("../images/mysql.png", height: 15%),
     caption: [Logo MySQL]
-)
+) <logo_mysql>
 
-MySQL è un database management system (DBMS) relazionale open source tra i più diffusi e utilizzati al mondo. Supporta il linguaggio SQL standart per la gestione e l'interrogazione dei dati, offrendo funzionalità avanzate come gestione delle transazioni ACID, meccanismi di backup e recovery, replicazione dei dati e ottimizzazione delle query. E' particolarmente adatto per applicazioni web grazie alla sua scalabilità, affidabilità e facilità di integrazione con vari linguaggi di programmazione, incluso JavaScript tramite Node.js.
+MySQL @mysql (@logo_mysql) è un database management system (#gl("dbms")) relazionale open source tra i più diffusi e utilizzati al mondo. Supporta il linguaggio SQL standart per la gestione e l'interrogazione dei dati, offrendo funzionalità avanzate come gestione delle transazioni #gl("acid"), meccanismi di backup e recovery, replicazione dei dati e ottimizzazione delle query. E' particolarmente adatto per applicazioni web grazie alla sua scalabilità, affidabilità e facilità di integrazione con vari linguaggi di programmazione, incluso JavaScript tramite Node.js.
 
 #v(1em)
 / Motivazioni della scelta:
@@ -85,16 +85,16 @@ La decisione di adottare MySQL Server come DBMS per il progetto è stata guidata
 #figure(
     image("../images/workbench.png", height: 15%),
     caption: [Logo MySQL Workbench]
-)
+) <logo_mysql_workbench>
 
-MySQL Workbench è lo strumento ufficiale di amministrazione e sviluppo per MySQL sviluppato da Oracle. Offre un'interfaccia grafica intuitiva per la gestione dei database, consentendo agli sviluppatori e agli amministratori di eseguire operazioni come la progettazione dello schema del database, la scrittura e l'esecuzione di query SQL, la gestione degli utenti e dei permessi, nonché il monitoraggio delle prestazioni del server MySQL.
+MySQL Workbench @workbench (@logo_mysql_workbench) è lo strumento ufficiale di amministrazione e sviluppo per MySQL sviluppato da Oracle. Offre un'interfaccia grafica intuitiva per la gestione dei database, consentendo agli sviluppatori e agli amministratori di eseguire operazioni come la progettazione dello schema del database, la scrittura e l'esecuzione di query SQL, la gestione degli utenti e dei permessi, nonché il monitoraggio delle prestazioni del server MySQL.
 
 #v(1em)
 / Motivazioni della scelta:
 
 L'adozione di MySQL Workbench come strumento di gestione del database è stata motivata da diversi fattori chiave:
 #v(0.5em)
-- #text(weight: "bold")[Interfaccia grafica intuitiva:] Workbench permette di gestire il database attraverso un'interfaccia visuale user-friendly, semplificando operazioni complesse come la progettazione dello schema ER (Entity-Relationship), la creazione e modifica di tabelle, l'esecuzione di query e la visualizzazione dei risultati. Questo risulta particolarmente utile durante lo sviluppo per verificare rapidamente la struttura dei dati e testare query.
+- #text(weight: "bold")[Interfaccia grafica intuitiva:] Workbench permette di gestire il database attraverso un'interfaccia visuale user-friendly, semplificando operazioni complesse come la progettazione dello #gl("schema-er"), la creazione e modifica di tabelle, l'esecuzione di query e la visualizzazione dei risultati. Questo risulta particolarmente utile durante lo sviluppo per verificare rapidamente la struttura dei dati e testare query.
 
 - #text(weight: "bold")[Strumento ufficiale:] Essendo lo strumento ufficiale sviluppato da Oracle, MySQL Workbench garantisce piena compatibilità con tutte le funzionalità di MySQL. Questo assicura che tutte le operazioni eseguite tramite Workbench siano supportate e ottimizzate per il server MySQL.
 
@@ -105,16 +105,16 @@ L'adozione di MySQL Workbench come strumento di gestione del database è stata m
 #figure(
     image("../images/postman.png", height: 15%),
     caption: [Logo Postman]
-)
+) <logo_postman>
 
-Postman è una piattaforma completa per lo sviluppo e testing di API che consente di progettare, testare, documentare e monitorare interfacce REST atraverso un'interfaccia intuitiva. E' diventato lo standard de facto per il testing di API grazie alla sua semplicità d'uso e alle sue funzionalità avanzate.
+Postman @postman (@logo_postman) è una piattaforma completa per lo sviluppo e testing di API che consente di progettare, testare, documentare e monitorare interfacce REST atraverso un'interfaccia intuitiva. E' diventato lo standard de facto per il testing di API grazie alla sua semplicità d'uso e alle sue funzionalità avanzate.
 
 #v(1em)
 / Motivazioni della scelta:
 
 Postman è stato scelto come strumento principale per il testing delle API sviluppate nel progetto per diverse ragioni:
 #v(0.5em)
-- #text(weight: "bold")[Testing efficiente delle API:] Durante lo sviluppo del backend basato su API REST, era fondamentale poter testare rapidamente gli endpoint senza dover sviluppare prima il frontend. Postman permette di inviare richieste HTTP (GET, POST, PUT, DELETE) con parametri personalizzati, headers e body in formato JSON, visualizzando immediatamente le risposte del server. Questo ha accelerato significativamente il ciclo di sviluppo e debug.
+- #text(weight: "bold")[Testing efficiente delle API:] Durante lo sviluppo del backend basato su API REST, era fondamentale poter testare rapidamente gli endpoint senza dover sviluppare prima il frontend. Postman permette di inviare richieste HTTP (GET, POST, PUT, DELETE) con parametri personalizzati, headers e body in formato #gl("json"), visualizzando immediatamente le risposte del server. Questo ha accelerato significativamente il ciclo di sviluppo e debug.
 
 - #text(weight: "bold")[Gestione delle collections:] Postman consente di organizzare le richieste API in collezioni, facilitando la gestione e il riutilizzo dei test. Durante lo sviluppo, sono state create collezioni specifiche per ogni risorsa API, permettendo di eseguire test ripetitivi in modo strutturato.
 
@@ -125,9 +125,9 @@ Postman è stato scelto come strumento principale per il testing delle API svilu
 #figure(
     image("../images/suite_jetbrains.png", height: 15%),
     caption: [Logo JetBrains, IntelliJ IDEA e WebStorm]
-)
+) <logo_jetbrains>
 
-JetBrains offre una suite di IDE (Integrated Development Enviroment) professionali specifici per linguaggi e tecnologie. IntelliJ IDEA è ottimizzato per lo sviluppo Java, ma supporta anche JavaScript e Node.js tramite plugin. WebStorm è un IDE specializzato per lo sviluppo web front-end e back-end con supporto nativo per HTML, CSS e JavaScript.
+JetBrains @jetbrains (@logo_jetbrains) offre una suite di #gl("ide") professionali specifici per linguaggi e tecnologie. IntelliJ IDEA è ottimizzato per lo sviluppo Java, ma supporta anche JavaScript e Node.js tramite plugin. WebStorm è un IDE specializzato per lo sviluppo web front-end e back-end con supporto nativo per HTML, CSS e JavaScript.
 
 #v(1em)
 / Motivazioni della scelta:
@@ -151,9 +151,9 @@ L'adozione degli IDE JetBrains per lo sviluppo del progetto è stata motivata da
 #figure(
     image("../images/git_github.png", height: 15%),
     caption: [Logo Git e GitHub]
-)
+) <logo_git_github>
 
-Git è un sistema di controllo versione distribuito che traccia le modifiche al codice sorgente durante lo sviluppo software. GitHub è una piattaforma di hosting per repository Git basata su cloud che aggiunge funzionalità collaborative, gestione progetti e strumenti di integrazione continua.
+Git @git (@logo_git_github) è un sistema di controllo versione distribuito che traccia le modifiche al codice sorgente durante lo sviluppo software. GitHub è una piattaforma di hosting per #gl("repository") Git basata su cloud che aggiunge funzionalità collaborative, gestione progetti e strumenti di integrazione continua.
 
 #v(1em)
 / Motivazioni della scelta:
@@ -175,9 +175,9 @@ Git e GitHub sono stati scelti come strumenti di versionamento del codice per di
 #figure(
     image("../images/typst.png", height: 15%),
     caption: [Logo Typst]
-)
+) <logo_typst>
 
-Typst @typst è un sistema di typesetting moderno, progettato come alternativa contemporanea a LaTeX. Utilizza una sintassi più intuitiva e leggera, tempi di compilazione significativamente più rapidi e un'architettura pensata per semplificare la creazione di documenti tecnici di alta qualità tipografica.
+Typst @typst (@logo_typst) è un sistema di typesetting moderno, progettato come alternativa contemporanea a #gl("latex"). Utilizza una sintassi più intuitiva e leggera, tempi di compilazione significativamente più rapidi e un'architettura pensata per semplificare la creazione di documenti tecnici di alta qualità tipografica.
 
 #v(1em)
 / Motivazioni della scelta:
@@ -197,9 +197,9 @@ Typst è stato scelto come strumento di documentazione per il progetto per diver
 #figure(
     image("../images/docker.png", height: 15%),
     caption: [Logo Docker]
-)
+) <logo_docker>
 
-Docker @docker è una piattaforma di containerizzazione che permette di pacchettizzare applicazioni con tutte le loro dipendenze in container isolati e portabili. I container sono ambienti di esecuzione leggeri e autosufficienti che garantiscono che l'applicazione funzioni allo stesso modo su qualsiasi sistema che supporti Docker.
+Docker @docker (@logo_docker) è una piattaforma di containerizzazione che permette di pacchettizzare applicazioni con tutte le loro dipendenze in container isolati e portabili. I container sono ambienti di esecuzione leggeri e autosufficienti che garantiscono che l'applicazione funzioni allo stesso modo su qualsiasi sistema che supporti Docker.
 
 #v(1em)
 / Motivazioni della scelta:

@@ -16,4 +16,4 @@ Quello di default è IEEE ma alla fine è preferenza tua o del relatore
 #show bibliography: set par(
   spacing: 1em,        // spazio tra le voci
 )
-#bibliography("bibliography.yml", full: true)
+#bibliography("bibliography.yml", full: true, title: "Sitografia")

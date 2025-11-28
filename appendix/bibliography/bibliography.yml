@@ -7,3 +7,38 @@
   type: web
   title: Docker
   url: https://www.docker.com/
+
+'nodejs':
+  type: web
+  title: Node.js
+  url: https://nodejs.org/en/
+
+'mysql':
+  type: web
+  title: MySQL
+  url: https://www.mysql.com/it/
+
+'workbench':
+  type: web
+  title: MySQL Workbench
+  url: https://www.mysql.com/products/workbench/
+
+'postman':
+  type: web
+  title: Postman
+  url: https://www.postman.com/
+
+'jetbrains':
+  type: web
+  title: JetBrains
+  url: https://www.jetbrains.com/
+
+'git':
+  type: web
+  title: Git
+  url: https://git-scm.com/
+
+'github':
+  type: web
+  title: GitHub
+  url: https://github.com/

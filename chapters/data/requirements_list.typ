@@ -101,47 +101,47 @@
 
   qualitativi+=1
   FR.push((
-    [#q#str(qualitativi) <r-nq-2>], [Il sistema deve essere utilizzabile da utenti senza formazione specifica]
+    [#q#str(qualitativi)#label("r-nq-2")], [Il sistema deve essere utilizzabile da utenti senza formazione specifica]
   ))
 
   qualitativi+=1
   FR.push((
-    [#q#str(qualitativi) <r-nq-3>], [Il sistema deve visualizzare messaggi di errore in linguaggio naturale comprensibili all'utente finale]
+    [#q#str(qualitativi)#label("r-nq-3")], [Il sistema deve visualizzare messaggi di errore in linguaggio naturale comprensibili all'utente finale]
   ))
 
   qualitativi+=1
   FR.push((
-    [#q#str(qualitativi) <r-nq-4>], [Il sistema deve avere una gestione corretta degli errori senza perdita di dati]
+    [#q#str(qualitativi)#label("r-nq-4")], [Il sistema deve avere una gestione corretta degli errori senza perdita di dati]
   ))
 
   qualitativi+=1
   FR.push((
-    [#q#str(qualitativi) <r-nq-5>], [L'accesso deve essere protetto contro accessi non autorizzati]
+    [#q#str(qualitativi)#label("r-nq-5")], [L'accesso deve essere protetto contro accessi non autorizzati]
   ))
 
   qualitativi+=1
   FR.push((
-    [#q#str(qualitativi) <r-nq-6>], [Il sistema deve essere accessibile da dispositivi mobili e desktop]
+    [#q#str(qualitativi)#label("r-nq-6")], [Il sistema deve essere accessibile da dispositivi mobili e desktop]
   ))
 
   vincolo+=1
   FR.push((
-    [#v#str(vincolo) <r-nv-1>], [Separazione tra frontend e backend tramite API RESTful]
+    [#v#str(vincolo)#label("r-nv-1")], [Separazione tra frontend e backend tramite API RESTful]
   ))
 
   vincolo+=1
   FR.push((
-    [#v#str(vincolo) <r-nv-2>], [Accessibilità tramite browser web moderni senza plugin aggiuntivi o installazioni locali]
+    [#v#str(vincolo)#label("r-nv-2")], [Accessibilità tramite browser web moderni senza plugin aggiuntivi o installazioni locali]
   ))
 
   vincolo+=1
   FR.push((
-    [#v#str(vincolo) <r-nv-3>], [Il sistema deve poter essere distribuito in ambienti containerizzati come Docker]
+    [#v#str(vincolo)#label("r-nv-3")], [Il sistema deve poter essere distribuito in ambienti containerizzati come Docker]
   ))
 
   vincolo+=1
   FR.push((
-    [#v#str(vincolo) <r-nv-4>], [Possibilità di integrazione con sistemi di autenticazione esterni in futuro (LDAP, OAuth)]
+    [#v#str(vincolo)#label("r-nv-4")], [Possibilità di integrazione con sistemi di autenticazione esterni in futuro (LDAP, OAuth)]
   ))
 
   if getLen == true {

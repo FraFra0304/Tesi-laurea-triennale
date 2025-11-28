@@ -16,7 +16,7 @@ L'obiettivo del progetto è stato lo sviluppo di una dashboard web che consentis
 
 La realizzazione è avvenuta completamente ex novo, progettando sia il backend per l'elaborazione dei dati che il frontend per la visualizzazione. La sfida principale è consistita nel comprendere la struttura complessa dei dati telefonici, identificare le informazioni rilevanti e progettare query efficienti per l'estrazione e l'aggregazione delle statistiche.
 
-L'approccio scelto prevedeva la realizzazione di un MVP (Minimum Viable Product) funzionante nel minor tempo possibile, che includesse già le funzionalità base del sistema, anche se non ancora completamente ottimizzate. Questo prototipo iniziale sarebbe poi servito come base per successive iterazioni di miglioramento e ampliamento.
+L'approccio scelto prevedeva la realizzazione di un #gl("mvp") funzionante nel minor tempo possibile, che includesse già le funzionalità base del sistema, anche se non ancora completamente ottimizzate. Questo prototipo iniziale sarebbe poi servito come base per successive iterazioni di miglioramento e ampliamento.
 
 == Organizzazione del lavoro
 

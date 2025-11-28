@@ -7,7 +7,7 @@
 // This file sets up the properties of the document and the libraries used
 
 #let config(
-  myAuthor: "Nome cognome",
+  myAuthor: "Francesco Fragonas",
   myTitle: "Titolo",
   myLang: "it",
   myNumbering: "1.1",
@@ -32,7 +32,7 @@
   )
   set text(font: "New Computer Modern", lang: myLang)
   set heading(numbering: myNumbering)
-  show raw: set text(font: "DejaVu Sans Mono", size: 10pt)
+  show raw: set text(font: "DejaVu Sans Mono", size: 8pt)
   set par(spacing: 0.55em)
   show heading: set block(above: 2em, below: 1.4em)
   show heading.where(level: 1): it => {
@@ -58,11 +58,15 @@
         } else { white }
       }
   )
-  show figure: it => {
+ show figure: it => {
+  if it.kind == "glossarium_entry" {
+    block(above: 0em, below: 0.5em, it)
+  } else {
     v(1em)
     it
     v(1em)
   }
+}
   // Il comando sotto lo tengo commentato perché altrimenti può succedere che l'immagine e la sua caption finiscano in due pagine diverse.
   // Per questo motivo ogni tabella deve essere racchiusa in un blocco di codice #{ } o di contenuto #[ ] per isolarne le regole. (se trovate un modo migliore aprite una pr :D )
   //show figure: set block(breakable: true)
@@ -74,7 +78,7 @@
 // L'unica alternativa è al seguente link ma funziona solo se usi Glossarium con le ref ad esempio '@TERMINE' 
 // https://forum.typst.app/t/how-do-you-apply-a-style-to-glossarium-references-that-is-different-to-other-reference-types/2089?u=ogre
 #let glossary-style(body) = {
-  text(style: "italic", rgb(155, 0 , 20), body+sub[G])
+  text(style: "italic", rgb("#0077ff"), body+sub[G])
 }
 
 #let gl(key,

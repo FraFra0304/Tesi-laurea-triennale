@@ -1,3 +1,5 @@
+#import "../config/thesis-config.typ": *
+
 #pagebreak(to:"odd")
 
 = Implementazione<cap:implementazione>
@@ -569,7 +571,7 @@ Risposte usano codici semanticamente corretti:
 
 == Implementazione frontend
 
-Il frontend è strutturato seguendo un'architettura modulare multi-pagina, dove ogni funzionalità è rappresentata da un file HTML dedicato. Questa scelta privilegia la semplicità e la manutenibilità rispetto alle architetture SPA più complesse.
+Il frontend è strutturato seguendo un'architettura modulare multi-pagina, dove ogni funzionalità è rappresentata da un file HTML dedicato. Questa scelta privilegia la semplicità e la manutenibilità rispetto alle architetture #gl("spa") più complesse.
 
 === Organizzazione file e struttura
 
@@ -810,7 +812,7 @@ Questa strategia mantiene il numero di punti dati entro limiti gestibili (inferi
 
 === Ottimizzazione delle performance
 
-Le performance rappresentano una preoccupazione costante dello sviluppo, rispondendo direttamente al requisito non funzionale #link(<r-nq-2>)[R-NQ-1] sui tempi di risposta rapidi.
+Le performance rappresentano una preoccupazione costante dello sviluppo, rispondendo direttamente al requisito non funzionale #link("r-nq-2")[R-NQ-1] sui tempi di risposta rapidi.
 #v(1em)
 *Profiling delle query*: il backend è strumentato per registrare il tempo di esecuzione di ogni query database. Le query che eccedono soglie prestazionali vengono analizzate mediante il comando `EXPLAIN` di MySQL per identificare colli di bottiglia.
 
