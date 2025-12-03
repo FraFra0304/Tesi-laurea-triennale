@@ -28,7 +28,7 @@ HTML (HyperText Markup Language), CSS (Cascading Style Sheets) e JavaScript (@lo
 
 La decisione di utilizzare le tecnologie web native, senza #gl("framework") moderni come React Angular o Vue.js, è stata guidata da specifici vincoli aziendali e caratteristiche del progetto:
 #v(0.5em)
-- #text(weight: "bold")[Vincolo aziendale:] L'azienda ospitante ha espresso la necessità di evitare l'adozione di framework complessi com curve di apprendimento ripide e dipendenze esterne. I dipendenti dell'azienda hanno una familiarità consolidata con HTML, CSS e JavaScript, rendendo più agevole la manutenzione e l'evoluzione del codice nel tempo.
+- #text(weight: "bold")[Vincolo aziendale:] L'azienda ospitante ha espresso la necessità di evitare l'adozione di framework complessi con curve di apprendimento ripide e dipendenze esterne. I dipendenti dell'azienda hanno una familiarità consolidata con HTML, CSS e JavaScript, rendendo più agevole la manutenzione e l'evoluzione del codice nel tempo.
 
 - #text(weight: "bold")[Semplicità dell'interfaccia:] L'applicazione sviluppata presenta un'interfaccia utente relativamente semplice, che non richiede le funzionalità avanzate offerte dai framework moderni. L'uso diretto di HTML, CSS e JavaScript consente di mantenere il codice leggero e facilmente comprensibile.
 
@@ -67,7 +67,7 @@ La scelta di Node.js per lo sviluppo del backend è stata motivata da diverse co
     caption: [Logo MySQL]
 ) <logo_mysql>
 
-MySQL @mysql (@logo_mysql) è un database management system (#gl("dbms")) relazionale open source tra i più diffusi e utilizzati al mondo. Supporta il linguaggio SQL standart per la gestione e l'interrogazione dei dati, offrendo funzionalità avanzate come gestione delle transazioni #gl("acid"), meccanismi di backup e recovery, replicazione dei dati e ottimizzazione delle query. E' particolarmente adatto per applicazioni web grazie alla sua scalabilità, affidabilità e facilità di integrazione con vari linguaggi di programmazione, incluso JavaScript tramite Node.js.
+MySQL @mysql (@logo_mysql) è un database management system (#gl("dbms")) relazionale open source tra i più diffusi e utilizzati al mondo. Supporta il linguaggio SQL standard per la gestione e l'interrogazione dei dati, offrendo funzionalità avanzate come gestione delle transazioni #gl("acid"), meccanismi di backup e recovery, replicazione dei dati e ottimizzazione delle query. E' particolarmente adatto per applicazioni web grazie alla sua scalabilità, affidabilità e facilità di integrazione con vari linguaggi di programmazione, incluso JavaScript tramite Node.js.
 
 #v(1em)
 / Motivazioni della scelta:

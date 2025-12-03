@@ -12,23 +12,16 @@
   )
 ]
 
-#v(8em)
+#pagebreak()
 
 #outline(
   title: figuresList,
   target: figure.where(kind: image)
 )
 
-#v(8em)
+#v(6em)
 
 #outline(
     title: tablesList,
     target: figure.where(kind: table),
-)
-
-#v(8em)
-
-#outline(
-    title: sourceCodeList,
-    target: figure.where(kind: raw),
 )

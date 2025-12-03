@@ -3,7 +3,7 @@
 #let myMatricola = "2076436"
 #let myTitle = "VoIPDashboard - Strumento web per la visualizzazione e l’analisi di dati telefonici"
 #let myProf = "Prof. Marco Zanella"
-#let myCompany = "Cinquenet SRL"
+#let myCompany = "Cinquenet srl"
 #let myLocation = "Padova"
 #let myAY = "2024-2025"
 #let myTime = "Dicembre 2025"

@@ -38,7 +38,7 @@
   ))
   obbligatori+=1
   FR.push((
-    [#o#str(obbligatori)#label("r-fo-8")], [Il sistema deve visualizzare metriche aggregate tramite card informative (chiamate totali, ricevute, risposte, perse, effettuate, tempo totale)]
+    [#o#str(obbligatori)#label("r-fo-8")], [Il sistema deve visualizzare metriche aggregate tramite card informative (chiamate totali, ricevute, risposte, perse, effettuate e tempo totale)]
   ))
   obbligatori+=1
   FR.push((
